@@ -14,7 +14,35 @@ module main;
 		ZF, N, C, V);
 	
 	initial begin
-
+		clk = 0;
+		clr = 0;
+		#200;
+		$display("Clock");
+		clk = 1;
+		#200;
+		clk = 0;
+		#200;
+		$display("Clock");
+		clk = 1;
+		#200;
+		$display("Clear enabled");
+		clr = 1;
+		clk = 0;
+		#200;
+		$display("Clock");
+		clk = 1;
+		#200;
+		$display("Clear disabled");
+		clr = 0;
+		clk = 0;
+		#200;
+		$display("Clock");
+		clk = 1;
+		#200;
+		clk = 0;
+		#200;
+		$display("Clock");
+		clk = 1;
 	end
 
 endmodule
