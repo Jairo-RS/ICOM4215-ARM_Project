@@ -1,3 +1,5 @@
+`include "NextStateDecoder.v"
+
 module ControlUnit (
 	output FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
 	output [1:0] MA,
@@ -29,63 +31,6 @@ module ControlUnit (
 		end
 	end
 	
-endmodule
-
-
-module NextStateDecoder (
-	output reg	[9:0] 	nextState, 
-	input		[9:0] 	state,
-	input		[31:0] 	IR, 
-	input 				Cond, MOC);
-
-	reg tempState = 10'b0;
-	
-	always @ (state) begin
-        case (state) 
-            10'd0: nextState <= 10'd1;
-			10'd1: nextState <= 10'd2;
-			10'd2: nextState <= 10'd3;
-			10'd3: nextState <= 10'd4;
-			10'd4: begin
-				
-				// Extra Load/Stores
-				if (IR[27:25]==3'b000 & IR[7]==1'b1 & IR[4]==1'b1) begin
-					if (IR[22] == 0) tempState+=10'd4 // Uses Register
-					if (IR[24]==1 && IR[21] == 1) tempState+=10'd4 // PRE index
-					else if (IR[24]==0 && IR[21] == 0) tempState+=10'd4 // POS index
-					if (IR[23] == 0) tempState+=10'd96 // Subtract
-					
-					if (IR[20] == 1) begin	// LDRSB LDRSH LDRH
-						if (IR[6] == 1) begin
-							if (IR[5] == 0) begin
-								tempState+=10'd227 // LDRSB
-							end
-							else tempState+=10'd251;	// LDRSH
-						end
-						else begin
-							$display("Error: LDRH not implemented");
-							nextState <= 10'd1;
-						end
-					end
-					else begin	// STRH LDRD STRD
-						if (IR[6] == 1) begin	// Double operation
-							if (IR[5] == 0) tempState+= 10'd203;	// LDRD
-							else nextState <= 10'd275;	// STRD
-						end
-						else begin
-							$display("Error: STRH, SWPB, LDREX,STREX not implemented");
-							nextState <= 10'd1;
-						end
-					end
-				end
-				nextState <= tempState;
-			end
-			
-			default:
-				nextState <= 10'd1;
-            
-		endcase
-	end
 endmodule
 
 
