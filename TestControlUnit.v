@@ -2,9 +2,13 @@
 
 module main;
 	
-	wire FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
-		MA1, MA0, MB1, MB0, MC, MD, ME;
+	wire FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV;
+    wire [1:0] MA;
+    wire [1:0] MB;
+    wire [1:0] MC;
+	wire MD, ME;
     wire [4:0] OP;
+	wire [1:0] DT;
 	reg [31:0] IR;
     reg MOC, COND, clk, clr;
     reg debug = 1;
@@ -12,7 +16,7 @@ module main;
 	
 	
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
-		MA1, MA0, MB1, MB0, MC, MD, ME, OP, IR, MOC, COND, clk, clr,
+		MA, MB, MC, MD, ME, OP, DT, IR, MOC, COND, clk, clr,
 		debug);
 	
 	initial begin
