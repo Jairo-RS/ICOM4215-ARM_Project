@@ -13,8 +13,7 @@ module main;
     reg MOC, COND, clk, clr;
     reg debug = 1;
 	reg showClock = 0;
-	
-	
+		
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
 		MA, MB, MC, MD, ME, OP, DT, IR, MOC, COND, clk, clr,
 		debug);
@@ -52,6 +51,10 @@ module main;
 		#200;
 		clk = 0;
 		
+		//							SBZ
+		//		 COND       |Rn||Rd||Im|    |Rm|
+		IR = 31'b0000001110100000000000011010000
+		//		       PU WL             SH
 		// Testing states
 		#200;
 		$display("\n\nReset");
