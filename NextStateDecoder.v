@@ -133,7 +133,18 @@ module NextStateDecoder (
 						end
 					end
 				end
-				
+				// Branch and Branch and Link
+                else if (IR[27:25] == 3'b101) begin
+					if (IR[24]) begin 
+						nextState <= 10'd519; 				// BL
+						if (debug) $display("BL");
+					end
+					else begin 
+						nextState <= 10'd520; 				// B
+						if (debug) $display("B");
+					end
+				end
+
 			    // Unknown instruction
                 else begin
                     $display("Error. Unknown instruction.");

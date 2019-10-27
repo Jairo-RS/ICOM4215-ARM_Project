@@ -77,7 +77,10 @@ module main;
 		//IR = makeADDRMode3 (4'b0,1,0,1,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
 		
 		//					COND P U S W L Rn	Rd	 
-		IR = makeADDRMode4 (4'b0,1,0,0,0,0,4'b0,15'b0);
+		//IR = makeADDRMode4 (4'b0,1,0,0,0,0,4'b0,15'b0);
+		
+		//Branch
+		IR = 32'b00001011000000000000000000000000;
 		$display("IR %b", IR);
 
 		MOC = 1;
