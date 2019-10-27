@@ -8,31 +8,78 @@ module NextStateDecoder (
 
 	always @ (state) begin
         case (state) 
-            10'd0: nextState <= 10'd1;
+          	10'd0: nextState <= 10'd1;
 			10'd1: nextState <= 10'd2;
 			10'd2: nextState <= 10'd3;
 			10'd3: if(MOC) nextState <= 10'd4;
-				else nextState <= 10'd3;
+            	else nextState <= 10'd3;
 			10'd4: begin
 				//Following Instructions Format Table
-				//Data Processing Immediate / Register shift
-/* 				if (IR[27:25]== 3'b001 || (IR[27:25] == 3'b000 && IR[4] == 1'b0) 
-					if(IR[24:23] == 2'b10) nextState <= ;
-					if (IR[20] == 1'b1) nextState <= ;
-					else nextState <= ;
-                // Load and Store Immediate / Register Offset
-                else if(IR[27:26] == 2'b01)
-                    // postindex
-                    if(IR[24] == 1'b0) nextState <= ;
-                    if(IR[23] == 1'b1) nextState <= ;
-                    else nextState <= ;
-                // Branch and Branch and Link
-                else if (IR[27:25] == 3'b101)
-                    if(IR[24] == 1'b0) nextState <= ;
-                    else nextState <= ; */
-					
+        		//Data Processing Register
+				if(IR[27:25] == 3'b000 & IR[6:4] == 3'b000)
+					nextState <= 10'd5;
+				//Data Processing Immediate
+				else if (IR[27:25] == 3'b001 & IR[20] == 1'b1) 
+					nextState <= 10'd6;
+				//Shift by register
+				else if(IR[27:25] == 3'b000 & IR[4] == 1'b1) 
+					nextState <= 10'd7;
+				//Shift by immediate
+				else if(IR[27:25] == 3'b000 & IR[4] == 1'b0) 
+					nextState <= 10'd8;
+				//TST
+				//if (IR[27:25]== 3'b000 & IR[7] == 0 && IR[4] == 1) nextState <= 10'd9;
+
+				//Load and Store
+				else if(IR[27:25] == 3'b010) begin //Immediate
+					$display("Correct");
+					if(IR[20] == 1) begin //LDR
+							nextState <=
+							( IR[24] & !IR[21] ? 10'd4:0) +   //Register
+							( IR[24] &  IR[21] ? 10'd8:0) +   //PRE-index
+							(!IR[24] ? 10'd16:0) +    //POS-index
+							(!IR[23] ? 10'd96:0) +    //Subtract
+							+ 10'd35; //LDRB
+					end
+					else begin
+						if(IR[20] == 0) begin //STR
+							nextState <=
+							( IR[24] & !IR[21] ? 10'd4:0) +   //Register
+							( IR[24] &  IR[21] ? 10'd8:0) +   //PRE-index
+							(!IR[24] ? 10'd16:0) +    //POS-index
+							(!IR[23] ? 10'd96:0) +    //Subtract
+							+ 10'd83; //STRB
+					end
+					else begin
+						$display("Error. No more Adressing Modes 2 instructions.");
+						nextState <= 10'd0; //Go back to initial state
+					end
+				end
+				else if(IR[27:25] == 3'b011 & IR[4] == 0) begin //Register
+					$display("Correct");
+					if(IR[20] == 1) begin //LDR
+							nextState <=
+							( IR[24] &  IR[21] ? 10'd8:0) +   //PRE-index
+							(!IR[24] ? 10'd16:0) +    //POS-index
+							(!IR[23] ? 10'd96:0) +    //Subtract
+							+ 10'd39; //LDRB R
+					end
+					else begin
+					if(IR[20] == 0) begin //STR
+							nextState <=
+							( IR[24] & !IR[21] ? 10'd4:0) +   //Register
+							( IR[24] &  IR[21] ? 10'd8:0) +   //PRE-index
+							(!IR[24] ? 10'd16:0) +    //POS-index
+							(!IR[23] ? 10'd96:0) +    //Subtract
+							+ 10'd87; //STRB R
+					end
+        		else begin
+					$display("Error. No more Adressing Modes 2 instructions.");
+					nextState <= 10'd0; //Go back to initial state
+				end
+				
 				// Extra Load/Store Addressing Mode 3
-				if (IR[27:25]==3'b000 & IR[7]==1'b1 & IR[4]==1'b1) begin
+				else if (IR[27:25]==3'b000 & IR[7]==1'b1 & IR[4]==1'b1) begin
 					if (IR[20] == 1) begin	// LDRSB LDRSH LDRH
 						if (IR[6] == 1) begin
 							if (IR[5] == 0) begin
@@ -79,13 +126,13 @@ module NextStateDecoder (
 								+ 10'd274;							// STRD
 								if (debug) $display("STRD");
 							end
-						end
 						else begin
 							$display("Error: STRH, SWPB, LDREX,STREX not implemented");
 							nextState <= 10'd1;
 						end
 					end
 				end
+				
 				// Multiple Load/Store Addressing Mode 4
 				else if (IR[27:25]==3'b100) begin
 					if (IR[20] == 1) begin			// LDMDA LDMIA LDMDB LDMIB
@@ -181,6 +228,7 @@ module NextStateDecoder (
 						end
 					end
 				end
+				
 				// Branch and Branch and Link
                 else if (IR[27:25] == 3'b101) begin
 					if (IR[24]) begin 
@@ -282,7 +330,9 @@ module NextStateDecoder (
 			// 10'd35 : 
 				// if(IR[27:20] == 8'b01101001 || IR[27:20] == 8'b01001011) nextState <= ;
 				// else nextState <= ;
+
 			// 10'd36 : 
+
 
 			default:
 				nextState <= 10'd1;
