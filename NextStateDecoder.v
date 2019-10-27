@@ -4,18 +4,18 @@ module NextStateDecoder (
 	input		[31:0] 	IR, 
 	input 				Cond, MOC);
 
-	reg tempState = 10'b0;
+	reg debug = 1;
 
 	always @ (state) begin
         case (state) 
-            10'd0: nextState <= 10'd1;
+          	10'd0: nextState <= 10'd1;
 			10'd1: nextState <= 10'd2;
 			10'd2: nextState <= 10'd3;
 			10'd3: if(MOC) nextState <= 10'd4;
-				else nextState <= 10'd3;
+            	else nextState <= 10'd3;
 			10'd4: begin
 				//Following Instructions Format Table
-				//Data Processing Register
+        		//Data Processing Register
 				if(IR[27:25] == 3'b000 & IR[6:4] == 3'b000)
 					nextState <= 10'd5;
 				//Data Processing Immediate
@@ -29,9 +29,9 @@ module NextStateDecoder (
 					nextState <= 10'd8;
 				//TST
 				//if (IR[27:25]== 3'b000 & IR[7] == 0 && IR[4] == 1) nextState <= 10'd9;
-	
-                        	//Load and Store
-                        	else if(IR[27:25] == 3'b010) begin //Immediate
+
+				//Load and Store
+				else if(IR[27:25] == 3'b010) begin //Immediate
 					$display("Correct");
 					if(IR[20] == 1) begin //LDR
 							nextState <=
@@ -42,18 +42,17 @@ module NextStateDecoder (
 							+ 10'd35; //LDRB
 					end
 					else begin
-					if(IR[20] == 0) begin //STR
+						if(IR[20] == 0) begin //STR
 							nextState <=
 							( IR[24] & !IR[21] ? 10'd4:0) +   //Register
 							( IR[24] &  IR[21] ? 10'd8:0) +   //PRE-index
 							(!IR[24] ? 10'd16:0) +    //POS-index
 							(!IR[23] ? 10'd96:0) +    //Subtract
 							+ 10'd83; //STRB
-						end
 					end
 					else begin
-                                		$display("Error. No more Adressing Modes 2 instructions.");
-                                		nextState <= 10'd0; //Go back to initial state
+						$display("Error. No more Adressing Modes 2 instructions.");
+						nextState <= 10'd0; //Go back to initial state
 					end
 				end
 				else if(IR[27:25] == 3'b011 & IR[4] == 0) begin //Register
@@ -73,19 +72,181 @@ module NextStateDecoder (
 							(!IR[24] ? 10'd16:0) +    //POS-index
 							(!IR[23] ? 10'd96:0) +    //Subtract
 							+ 10'd87; //STRB R
+					end
+        		else begin
+					$display("Error. No more Adressing Modes 2 instructions.");
+					nextState <= 10'd0; //Go back to initial state
+				end
+				
+				// Extra Load/Store Addressing Mode 3
+				else if (IR[27:25]==3'b000 & IR[7]==1'b1 & IR[4]==1'b1) begin
+					if (IR[20] == 1) begin	// LDRSB LDRSH LDRH
+						if (IR[6] == 1) begin
+							if (IR[5] == 0) begin
+								nextState <= 
+								(!IR[22] ? 10'd4:0) + 			//Register
+								( IR[24] &  IR[21] ? 10'd8:0) +  //PRE index
+								(!IR[24] & !IR[21] ? 10'd16:0) +  //POS index
+								(!IR[23] ? 10'd96:0) + 			//Subtract
+								10'd226; // LDRSB
+								if (debug) $display("LDRSB");
+							end
+							else begin 
+								nextState <= 
+								(!IR[22] ? 10'd4:0) + 				//Register
+								( IR[24] &  IR[21] ? 10'd8:0) +  	//PRE index
+								(!IR[24] & !IR[21] ? 10'd16:0) +  	//POS index
+								(!IR[23] ? 10'd96:0) + 				//Subtract
+								+ 10'd250;							// LDRSH
+								if (debug) $display("LDRSH");
+							end
+						end
+						else begin
+							$display("Error: LDRH not implemented");
+							nextState <= 10'd0;
 						end
 					end
-					else begin
-                                		$display("Error. No more Adressing Modes 2 instructions.");
-                                		nextState <= 10'd0; //Go back to initial state
+					else begin	// STRH LDRD STRD
+						if (IR[6] == 1) begin	// Double operation
+							if (IR[5] == 0) begin 
+								nextState <= 
+								(!IR[22] ? 10'd4:0) + 				//Register
+								( IR[24] &  IR[21] ? 10'd8:0) +  	//PRE index
+								(!IR[24] & !IR[21] ? 10'd16:0) +  	//POS index
+								(!IR[23] ? 10'd96:0) + 				//Subtract
+								+ 10'd202;							// LDRD
+								if (debug) $display("LDRD");
+							end
+							else begin 
+								nextState <= 
+								(!IR[22] ? 10'd4:0) + 				//Register
+								( IR[24] &  IR[21] ? 10'd8:0) +  	//PRE index
+								(!IR[24] & !IR[21] ? 10'd16:0) +  	//POS index
+								(!IR[23] ? 10'd96:0) + 				//Subtract
+								+ 10'd274;							// STRD
+								if (debug) $display("STRD");
+							end
+						else begin
+							$display("Error: STRH, SWPB, LDREX,STREX not implemented");
+							nextState <= 10'd1;
+						end
 					end
 				end
+				
+				// Multiple Load/Store Addressing Mode 4
+				else if (IR[27:25]==3'b100) begin
+					if (IR[20] == 1) begin			// LDMDA LDMIA LDMDB LDMIB
+						if (IR[23] == 1) begin		// Increment
+							if (IR[24] == 0) begin	// After
+								if (IR[21] == 0) begin
+									nextState <= 10'd395; 				// LDMIA
+									if (debug) $display("LDMIA");
+								end
+								else begin 
+									nextState <= 10'd424; 				// LDMIA W
+									if (debug) $display("LDMIA W");
+								end
+							end
+							else begin				// Before
+								if (IR[21] == 0) begin
+									nextState <= 10'd398; 				// LDMIB
+									if (debug) $display("LDMIB");
+								end
+								else begin 
+									nextState <= 10'd427; 				// LDMIB W
+									if (debug) $display("LDMIB W");
+								end
+							end
+						end
+						else begin					// Decrement
+							if (IR[24] == 0) begin	// After
+								if (IR[21] == 0) begin
+									nextState <= 10'd401; 				// LDMDA
+									if (debug) $display("LDMDA");
+								end
+								else begin 
+									nextState <= 10'd430; 				// LDMDA W
+									if (debug) $display("LDMDA W");
+								end
+							end
+							else begin				// Before
+								if (IR[21] == 0) begin
+									nextState <= 10'd405; 				// LDMDB
+									if (debug) $display("LDMDB");
+								end
+								else begin 
+									nextState <= 10'd434; 				// LDMDB W
+									if (debug) $display("LDMDB W");
+								end
+							end
+						end
+					end
+					else begin						// STMIA STMIB STMDA STMDB
+						if (IR[23] == 1) begin		// Increment
+							if (IR[24] == 0) begin	// After
+								if (IR[21] == 0) begin
+									nextState <= 10'd409; 				// STMIA
+									if (debug) $display("STMIA");
+								end
+								else begin 
+									nextState <= 10'd438; 				// STMIA W
+									if (debug) $display("STMIA W");
+								end
+							end
+							else begin				// Before
+								if (IR[21] == 0) begin
+									nextState <= 10'd413; 				// STMIB
+									if (debug) $display("STMIB");
+								end
+								else begin 
+									nextState <= 10'd442; 				// STMIB W
+									if (debug) $display("STMIB W");
+								end
+							end
+						end
+						else begin					// Decrement
+							if (IR[24] == 0) begin	// After
+								if (IR[21] == 0) begin
+									nextState <= 10'd417; 				// STMDA
+									if (debug) $display("STMDA");
+								end
+								else begin 
+									nextState <= 10'd446; 				// STMDA W
+									if (debug) $display("STMDA W");
+								end
+							end
+							else begin				// Before
+								if (IR[21] == 0) begin
+									nextState <= 10'd421; 				// STMDB
+									if (debug) $display("STMDB");
+								end
+								else begin 
+									nextState <= 10'd450; 				// STMDB W
+									if (debug) $display("STMDB W");
+								end
+							end
+						end
+					end
+				end
+				
+				// Branch and Branch and Link
+                else if (IR[27:25] == 3'b101) begin
+					if (IR[24]) begin 
+						nextState <= 10'd519; 				// BL
+						if (debug) $display("BL");
+					end
+					else begin 
+						nextState <= 10'd520; 				// B
+						if (debug) $display("B");
+					end
+				end
+
 			    // Unknown instruction
-                	else begin
-                    		$display("Error. Unknown instruction.");
-                    		nextState <= 9'd1; //Go back to initial state
+                else begin
+                    $display("Error. Unknown instruction.");
+                    nextState <= 10'd1; //Go back to initial state
+				end
 			end
-		end
 			
 			//ALU Instructions
 			// 10'd5 : nextState <= ;
@@ -169,7 +330,9 @@ module NextStateDecoder (
 			// 10'd35 : 
 				// if(IR[27:20] == 8'b01101001 || IR[27:20] == 8'b01001011) nextState <= ;
 				// else nextState <= ;
-			// 10'd36 :
+
+			// 10'd36 : 
+
 
 			default:
 				nextState <= 10'd1;

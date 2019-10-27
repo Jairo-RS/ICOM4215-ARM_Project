@@ -18,7 +18,29 @@ module main;
 		MA, MB, MC, MD, ME, OP, DT, IR, MOC, COND, clk, clr,
 		debug);
 	
+	function [31:0] makeADDRMode3;
+		input [3:0] cond;
+		input P, U, I, W, L;
+		input [3:0] Rn, Rd, Im;
+		input S, H;
+		input [3:0] Rm;
+		begin
+			makeADDRMode3 = {cond,3'b0,P,U,I,W,L,Rn,Rd,Im,1'b1,S,H,1'b1,Rm};
+		end
+	endfunction
+	
+	function [31:0] makeADDRMode4;
+		input [3:0] cond;
+		input P, U, S, W, L;
+		input [3:0] Rn;
+		input [15:0] Rd;
+		begin
+			makeADDRMode4 = {cond,3'b100,P,U,S,W,L,Rn,Rd};
+		end
+	endfunction
+	
 	initial begin
+
 		clk = 0;
 		clr = 0;
 		#200;
@@ -50,11 +72,18 @@ module main;
 		clk = 1;
 		#200;
 		clk = 0;
+
+		//					COND P U I W L Rn	Rd	 Im   S H Rm
+		//IR = makeADDRMode3 (4'b0,1,0,1,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
 		
-		//							SBZ
-		//		 COND       |Rn||Rd||Im|    |Rm|
-		IR = 31'b0000001110100000000000011010000
-		//		       PU WL             SH
+		//					COND P U S W L Rn	Rd	 
+		//IR = makeADDRMode4 (4'b0,1,0,0,0,0,4'b0,15'b0);
+		
+		//Branch
+		IR = 32'b00001011000000000000000000000000;
+		$display("IR %b", IR);
+
+		MOC = 1;
 		// Testing states
 		#200;
 		$display("\n\nReset");
