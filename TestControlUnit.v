@@ -17,6 +17,16 @@ module main;
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
 		MA, MB, MC, MD, ME, OP, DT, IR, MOC, COND, clk, clr,
 		debug);
+		
+	function [31:0] makeADDRMode2;
+		input [3:0] cond;
+		input R, P, U, B, W, L;
+		input [3:0] Rn, Rd;
+		input [11:0] Rm;
+		begin
+			makeADDRMode2 = {cond,2'b01,R,P,U,B,W,L,Rn,Rd,Rm};
+		end
+	endfunction
 	
 	function [31:0] makeADDRMode3;
 		input [3:0] cond;
@@ -39,6 +49,7 @@ module main;
 		end
 	endfunction
 	
+	reg index = 0;
 	initial begin
 
 		clk = 0;
@@ -73,17 +84,21 @@ module main;
 		#200;
 		clk = 0;
 
-		//					COND P U I W L Rn	Rd	 Im   S H Rm
+		//					COND R P U B W L Rn	  Rd	Rm	 
+		IR = makeADDRMode2 (4'b0,1,0,1,0,0,0,4'b0,4'b0,12'b0);
+		
+		//					  COND P U I W L Rn	  Rd	 Im   S H Rm
 		//IR = makeADDRMode3 (4'b0,1,0,1,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
 		
-		//					COND P U S W L Rn	Rd	 
+		//					  COND P U S W L Rn	  Rd	 
 		//IR = makeADDRMode4 (4'b0,1,0,0,0,0,4'b0,15'b0);
 		
 		//Branch
-		IR = 32'b00001011000000000000000000000000;
+		//IR = 32'b00001011000000000000000000000000;
 		$display("IR %b", IR);
 
 		MOC = 1;
+		COND = 1;
 		// Testing states
 		#200;
 		$display("\n\nReset");
@@ -93,36 +108,55 @@ module main;
 		if (showClock) $display("Clock");
 		clk = 1;
 		clr = 0;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
