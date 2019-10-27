@@ -91,44 +91,92 @@ module NextStateDecoder (
 					if (IR[20] == 1) begin			// LDMDA LDMIA LDMDB LDMIB
 						if (IR[23] == 1) begin		// Increment
 							if (IR[24] == 0) begin	// After
-								nextState <= 10'd394; 				// LDMIA
-								if (debug) $display("LDMIA");
+								if (IR[21] == 0) begin
+									nextState <= 10'd395; 				// LDMIA
+									if (debug) $display("LDMIA");
+								end
+								else begin 
+									nextState <= 10'd424; 				// LDMIA W
+									if (debug) $display("LDMIA W");
+								end
 							end
 							else begin				// Before
-								nextState <= 10'd409; 				// LDMIB
-								if (debug) $display("LDMIB");
+								if (IR[21] == 0) begin
+									nextState <= 10'd398; 				// LDMIB
+									if (debug) $display("LDMIB");
+								end
+								else begin 
+									nextState <= 10'd427; 				// LDMIB W
+									if (debug) $display("LDMIB W");
+								end
 							end
 						end
 						else begin					// Decrement
 							if (IR[24] == 0) begin	// After
-								nextState <= 10'd424; 				// LDMDA
-								if (debug) $display("LDMDA");
+								if (IR[21] == 0) begin
+									nextState <= 10'd401; 				// LDMDA
+									if (debug) $display("LDMDA");
+								end
+								else begin 
+									nextState <= 10'd430; 				// LDMDA W
+									if (debug) $display("LDMDA W");
+								end
 							end
 							else begin				// Before
-								nextState <= 10'd439; 				// LDMDB
-								if (debug) $display("LDMDB");
+								if (IR[21] == 0) begin
+									nextState <= 10'd405; 				// LDMDB
+									if (debug) $display("LDMDB");
+								end
+								else begin 
+									nextState <= 10'd434; 				// LDMDB W
+									if (debug) $display("LDMDB W");
+								end
 							end
 						end
 					end
 					else begin						// STMIA STMIB STMDA STMDB
 						if (IR[23] == 1) begin		// Increment
 							if (IR[24] == 0) begin	// After
-								nextState <= 10'd455; 				// STMIA
-								if (debug) $display("STMIA");
+								if (IR[21] == 0) begin
+									nextState <= 10'd409; 				// STMIA
+									if (debug) $display("STMIA");
+								end
+								else begin 
+									nextState <= 10'd438; 				// STMIA W
+									if (debug) $display("STMIA W");
+								end
 							end
 							else begin				// Before
-								nextState <= 10'd471; 				// STMIB
-								if (debug) $display("STMIB");
+								if (IR[21] == 0) begin
+									nextState <= 10'd413; 				// STMIB
+									if (debug) $display("STMIB");
+								end
+								else begin 
+									nextState <= 10'd442; 				// STMIB W
+									if (debug) $display("STMIB W");
+								end
 							end
 						end
 						else begin					// Decrement
 							if (IR[24] == 0) begin	// After
-								nextState <= 10'd487; 				// STMDA
-								if (debug) $display("STMDA");
+								if (IR[21] == 0) begin
+									nextState <= 10'd417; 				// STMDA
+									if (debug) $display("STMDA");
+								end
+								else begin 
+									nextState <= 10'd446; 				// STMDA W
+									if (debug) $display("STMDA W");
+								end
 							end
 							else begin				// Before
-								nextState <= 10'd503; 				// STMDB
-								if (debug) $display("STMDB");
+								if (IR[21] == 0) begin
+									nextState <= 10'd421; 				// STMDB
+									if (debug) $display("STMDB");
+								end
+								else begin 
+									nextState <= 10'd450; 				// STMDB W
+									if (debug) $display("STMDB W");
+								end
 							end
 						end
 					end
