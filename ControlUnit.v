@@ -1080,6 +1080,11 @@ module ControlSignalsEncoder (
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
+			10'd203: //LDRD Imm + OFF
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+			end
 			10'd204: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
@@ -2055,175 +2060,155 @@ module ControlSignalsEncoder (
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
 			end
-			10'd398: //LDMIB / LDMED
+			10'd399: //LDMIB / LDMED
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
 			end
-			10'd399: //
+			10'd400: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd400: //
+			10'd401: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
-			10'd401: //
+			10'd402: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
 			end
-			10'd401: //LDMIDA / LDMFA
+			10'd403: //LDMIDA / LDMFA
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
 			end
-			10'd402: //
+			10'd404: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
 			end
-			10'd403: //
+			10'd405: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
-			10'd404: //
+			10'd406: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
 			end
-			10'd405: //LDMDB / LDMEA
+			10'd407: //LDMDB / LDMEA
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
 			end
-			10'd406: //
+			10'd408: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd407: //
+			10'd409: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
-			10'd408: //
+			10'd410: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
 			end
-			10'd409: //STMIA / STMEA
+			10'd411: //STMIA / STMEA
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
 			end
-			10'd410: //
+			10'd412: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
-			10'd411: //
+			10'd413: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 0;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
 			end
-			10'd412: //
+			10'd414: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd413: //STMIB / STMFA
+			10'd415: //STMIB / STMFA
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
 			end
-			10'd414: //
+			10'd416: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
-			10'd415: //
+			10'd417: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd416: //
+			10'd418: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd417: //STMDA / STMED
+			10'd419: //STMDA / STMED
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
 			end
-			10'd418: //
+			10'd420: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
-			10'd419: //
+			10'd421: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 0;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
 			end
-			10'd420: //
+			10'd422: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd421: //STMDB / STMFD
+			10'd423: //STMDB / STMFD
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
 			end
-			10'd422: //
+			10'd424: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
-			10'd423: //
+			10'd425: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd424: //
+			10'd426: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd424: //LDMIA / LDMFD W
+			10'd427: //LDMIA / LDMFD W
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
 			end
-			10'd425: //
+			10'd428: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
-			end
-			10'd426: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
-			end
-			10'd427: //
-			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
-			end
-			10'd427: //LDMIB / LDMED W
-			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
-			end
-			10'd428: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd429: //
 			begin
@@ -2235,136 +2220,157 @@ module ControlSignalsEncoder (
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
 			end
-			10'd430: //LDMIDA / LDMFA W
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
-			end
-			10'd431: //
-			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
-			end
-			10'd432: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
-			end
-			10'd433: //
-			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
-			end
-			10'd434: //LDMDB / LDMEA W
+			10'd431: //LDMIB / LDMED W
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
 			end
-			10'd435: //
+			10'd432: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd436: //
+			10'd433: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
-			10'd437: //
+			10'd434: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
 			end
-			10'd438: //STMIA / STMEA W
+			10'd435: //LDMIDA / LDMFA W
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
+			end
+			10'd436: //
+			begin
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+			end
+			10'd437: //
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+			end
+			10'd438: //
+			begin
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
+			end
+			10'd439: //LDMDB / LDMEA W
+			begin
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+			end
+			10'd440: //
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+			end
+			10'd441: //
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+			end
+			10'd442: //
+			begin
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
+			end
+			10'd443: //STMIA / STMEA W
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
 			end
-			10'd439: //
+			10'd444: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
-			10'd440: //
+			10'd445: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 0;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
 			end
-			10'd441: //
+			10'd446: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd442: //STMIB / STMFA W
+			10'd447: //STMIB / STMFA W
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
 			end
-			10'd443: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
-				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
-			end
-			10'd444: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
-			end
-			10'd445: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
-			end
-			10'd446: //STMDA / STMED W
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
-			end
-			10'd447: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
-				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
-			end
 			10'd448: //
 			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 0;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
 			10'd449: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd450: //STMDB / STMFD W
+			10'd450: //
 			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd451: //
+			10'd451: //STMDA / STMED W
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
+			end
+			10'd452: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
 				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
 			end
-			10'd452: //
-			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
-			end
 			10'd453: //
 			begin
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 0;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+			end
+			10'd454: //
+			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
 				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
-			10'd454: //B
+			10'd455: //STMDB / STMFD W
+			begin
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10011;	DT = 2'b00;
+			end
+			10'd456: //
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
+			end
+			10'd457: //
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+			end
+			10'd458: //
+			begin
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+			end
+			10'd459: //B
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b10;
 				MB = 2'b00;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b10010;	DT = 2'b00;
 			end
-			10'd455: //BL
+			10'd460: //BL
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b10;
 				MB = 2'b01;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b10010;	DT = 2'b00;
-			end		
+			end
+
             default:
                 $display("Error: Control Signal Encoder. State not recognized S = %b", state);
             endcase 

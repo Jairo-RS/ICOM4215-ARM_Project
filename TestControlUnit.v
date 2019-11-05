@@ -49,7 +49,6 @@ module main;
 		end
 	endfunction
 	
-	reg index = 0;
 	initial begin
 
 		clk = 0;
@@ -84,17 +83,28 @@ module main;
 		#200;
 		clk = 0;
 
-		//					COND R P U B W L Rn	  Rd	Rm	 
-		IR = makeADDRMode2 (4'b0,1,0,1,0,0,0,4'b0,4'b0,12'b0);
+//ORR Reg       COND   |OP|S|Rn||Rd|	    |Rm|	 
+		//IR =32'b00000000110110001100000000001010;
+//ORR Imm Shft  COND   |OP|S|Rn||Rd|ImSh SH |Rm|	 
+		//IR =32'b00000000110010001100001100101010;
 		
-		//					  COND P U I W L Rn	  Rd	 Im   S H Rm
-		//IR = makeADDRMode3 (4'b0,1,0,1,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
+//LDR Imm + Off			    COND R P U B W L Rn	  Rd	Rm	 
+		//IR = makeADDRMode2 (4'b0,0,1,1,0,0,1,4'b0,4'b0,12'b0);
+//LDRB R - Pre			    COND R P U B W L Rn	  Rd	Rm	 
+		//IR = makeADDRMode2 (4'b0,1,1,0,1,1,1,4'b0,4'b0,12'b0);
+//STRB R - Pos			    COND R P U B W L Rn	  Rd	Rm	 
+		//IR = makeADDRMode2 (4'b0,1,0,0,1,0,0,4'b0,4'b0,12'b0);
 		
-		//					  COND P U S W L Rn	  Rd	 
+//LDRSB Imm - OFF	        COND P U I W L Rn	 Rd  Im   S H Rm
+		//IR = makeADDRMode3 (4'b0,1,0,1,0,1,4'b0,4'b0,3'b0,1,0,4'b0);
+//STRH R + POS	            COND P U I W L Rn	 Rd  Im       S H Rm
+		//IR = makeADDRMode3 (4'b0,0,1,0,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
+		
+//STMDB / STMFD				  COND P U S W L Rn	  Rd	 
 		//IR = makeADDRMode4 (4'b0,1,0,0,0,0,4'b0,15'b0);
 		
 		//Branch
-		//IR = 32'b00001011000000000000000000000000;
+		IR = 32'b00001011000000000000000000000000;
 		$display("IR %b", IR);
 
 		MOC = 1;
@@ -121,6 +131,20 @@ module main;
 		if (showClock) $display("Clock");
 		clk = 1;
 		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
+		//MOC = 0;
+
 		#200;
 		clk = 0;
 		#200;

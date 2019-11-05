@@ -24,31 +24,34 @@ module NextStateDecoder (
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
 							nextState <= 10'd9;
+						else if(IR[20])	nextState <= 10'd7;
 						else nextState <= 10'd5;
 					
 					//Data Processing Immediate
 					else if (IR[27:25] == 3'b001 & IR[20] == 1'b1) 
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
-							nextState <= 10'd9;
+							nextState <= 10'd10;
+						else if(IR[20])	nextState <= 10'd8;
 						else nextState <= 10'd6;
 					
 					//Shift by register
 					else if(IR[27:25] == 3'b000 & IR[7] == 1'b0 & IR[4] == 1'b1) begin
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
-							nextState <= 10'd9;
-						else nextState <= 10'd7;
+							nextState <= 10'd10;
+						else if(IR[20])	nextState <= 10'd8;
+						else nextState <= 10'd6;
 					end
 					
 					//Shift by immediate
 					else if(IR[27:25] == 3'b000 & IR[4] == 1'b0) 
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
-							nextState <= 10'd9;
-						else nextState <= 10'd8;
+							nextState <= 10'd10;
+						else if(IR[20])	nextState <= 10'd8;
+						else nextState <= 10'd6;
 					
-
 					//Load and Store
 					else if(IR[27:25] == 3'b010) begin //Immediate
 						if(IR[20] == 1) begin 	//LDR
@@ -97,7 +100,7 @@ module NextStateDecoder (
 									( IR[24] &  IR[21] ? 10'd8:0) +  //PRE index
 									(!IR[24] & !IR[21] ? 10'd16:0) +  //POS index
 									(!IR[23] ? 10'd96:0) + 			//Subtract
-									10'd226; // LDRSB
+									10'd227; // LDRSB
 									if (debug) $display("LDRSB");
 								end
 								else begin 
@@ -106,7 +109,7 @@ module NextStateDecoder (
 									( IR[24] &  IR[21] ? 10'd8:0) +  	//PRE index
 									(!IR[24] & !IR[21] ? 10'd16:0) +  	//POS index
 									(!IR[23] ? 10'd96:0) + 				//Subtract
-									+ 10'd250;							// LDRSH
+									+ 10'd251;							// LDRSH
 									if (debug) $display("LDRSH");
 								end
 							end
@@ -123,7 +126,7 @@ module NextStateDecoder (
 									( IR[24] &  IR[21] ? 10'd8:0) +  	//PRE index
 									(!IR[24] & !IR[21] ? 10'd16:0) +  	//POS index
 									(!IR[23] ? 10'd96:0) + 				//Subtract
-									+ 10'd202;							// LDRD
+									+ 10'd203;							// LDRD
 									if (debug) $display("LDRD");
 								end
 								else begin 
@@ -132,7 +135,7 @@ module NextStateDecoder (
 									( IR[24] &  IR[21] ? 10'd8:0) +  	//PRE index
 									(!IR[24] & !IR[21] ? 10'd16:0) +  	//POS index
 									(!IR[23] ? 10'd96:0) + 				//Subtract
-									+ 10'd274;							// STRD
+									+ 10'd275;							// STRD
 									if (debug) $display("STRD");
 								end
 							end
@@ -153,17 +156,17 @@ module NextStateDecoder (
 										if (debug) $display("LDMIA");
 									end
 									else begin 
-										nextState <= 10'd424; 				// LDMIA W
+										nextState <= 10'd427; 				// LDMIA W
 										if (debug) $display("LDMIA W");
 									end
 								end
 								else begin				// Before
 									if (IR[21] == 0) begin
-										nextState <= 10'd398; 				// LDMIB
+										nextState <= 10'd399; 				// LDMIB
 										if (debug) $display("LDMIB");
 									end
 									else begin 
-										nextState <= 10'd427; 				// LDMIB W
+										nextState <= 10'd431; 				// LDMIB W
 										if (debug) $display("LDMIB W");
 									end
 								end
@@ -171,7 +174,7 @@ module NextStateDecoder (
 							else begin					// Decrement
 								if (IR[24] == 0) begin	// After
 									if (IR[21] == 0) begin
-										nextState <= 10'd401; 				// LDMDA
+										nextState <= 10'd403; 				// LDMDA
 										if (debug) $display("LDMDA");
 									end
 									else begin 
@@ -181,11 +184,11 @@ module NextStateDecoder (
 								end
 								else begin				// Before
 									if (IR[21] == 0) begin
-										nextState <= 10'd405; 				// LDMDB
+										nextState <= 10'd407; 				// LDMDB
 										if (debug) $display("LDMDB");
 									end
 									else begin 
-										nextState <= 10'd434; 				// LDMDB W
+										nextState <= 10'd435; 				// LDMDB W
 										if (debug) $display("LDMDB W");
 									end
 								end
@@ -195,21 +198,21 @@ module NextStateDecoder (
 							if (IR[23] == 1) begin		// Increment
 								if (IR[24] == 0) begin	// After
 									if (IR[21] == 0) begin
-										nextState <= 10'd409; 				// STMIA
+										nextState <= 10'd411; 				// STMIA
 										if (debug) $display("STMIA");
 									end
 									else begin 
-										nextState <= 10'd438; 				// STMIA W
+										nextState <= 10'd443; 				// STMIA W
 										if (debug) $display("STMIA W");
 									end
 								end
 								else begin				// Before
 									if (IR[21] == 0) begin
-										nextState <= 10'd413; 				// STMIB
+										nextState <= 10'd415; 				// STMIB
 										if (debug) $display("STMIB");
 									end
 									else begin 
-										nextState <= 10'd442; 				// STMIB W
+										nextState <= 10'd447; 				// STMIB W
 										if (debug) $display("STMIB W");
 									end
 								end
@@ -221,17 +224,17 @@ module NextStateDecoder (
 										if (debug) $display("STMDA");
 									end
 									else begin 
-										nextState <= 10'd446; 				// STMDA W
+										nextState <= 10'd451; 				// STMDA W
 										if (debug) $display("STMDA W");
 									end
 								end
 								else begin				// Before
 									if (IR[21] == 0) begin
-										nextState <= 10'd421; 				// STMDB
+										nextState <= 10'd423; 				// STMDB
 										if (debug) $display("STMDB");
 									end
 									else begin 
-										nextState <= 10'd450; 				// STMDB W
+										nextState <= 10'd455; 				// STMDB W
 										if (debug) $display("STMDB W");
 									end
 								end
@@ -242,11 +245,11 @@ module NextStateDecoder (
 					// Branch and Branch and Link
 					else if (IR[27:25] == 3'b101) begin
 						if (IR[24]) begin 
-							nextState <= 10'd519; 				// BL
+							nextState <= 10'd460; 				// BL
 							if (debug) $display("BL");
 						end
 						else begin 
-							nextState <= 10'd520; 				// B
+							nextState <= 10'd459; 				// B
 							if (debug) $display("B");
 						end
 					end
@@ -322,65 +325,65 @@ module NextStateDecoder (
 			10'd57: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd59,10'd60: //STR Imm + OFF
+			10'd59,10'd60,10'd61: //STR Imm + OFF
 				nextState <= state + 10'b1;
-			10'd61: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd62: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd63,10'd64: //STR R + OFF
+			10'd63,10'd64,10'd65: //STR R + OFF
 				nextState <= state + 10'b1;
-			10'd65: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd66: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd67,10'd68: //STR Imm + PRE
+			10'd67,10'd68,10'd69: //STR Imm + PRE
 				nextState <= state + 10'b1;
-			10'd69: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd70: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd71,10'd72: //STR R + PRE
+			10'd71,10'd72,10'd73: //STR R + PRE
 				nextState <= state + 10'b1;
-			10'd73: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd74: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd75,10'd76: //STR Imm + POS
+			10'd75,10'd76,10'd77: //STR Imm + POS
 				nextState <= state + 10'b1;
-			10'd77: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd78: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd79,10'd80: //STR R + POS
+			10'd79,10'd80,10'd81: //STR R + POS
 				nextState <= state + 10'b1;
-			10'd81: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd82: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd83,10'd84: //STRB Imm + OFF
+			10'd83,10'd84,10'd85: //STRB Imm + OFF
 				nextState <= state + 10'b1;
-			10'd85: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd86: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd87,10'd88: //STRB R + OFF
+			10'd87,10'd88,10'd89: //STRB R + OFF
 				nextState <= state + 10'b1;
-			10'd89: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd90: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd91,10'd92: //STRB Imm + PRE
+			10'd91,10'd92,10'd93: //STRB Imm + PRE
 				nextState <= state + 10'b1;
-			10'd93: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd94: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd95,10'd96: //STRB R + PRE
+			10'd95,10'd96,10'd97: //STRB R + PRE
 				nextState <= state + 10'b1;
-			10'd97: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd98: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd99,10'd100: //STRB Imm + POS
+			10'd99,10'd100,10'd101: //STRB Imm + POS
 				nextState <= state + 10'b1;
-			10'd101: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd102: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd103,10'd104: //STRB R + POS
+			10'd103,10'd104,10'd105: //STRB R + POS
 				nextState <= state + 10'b1;
-			10'd105: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd106: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
 			10'd107,10'd108: //LDR Imm - OFF
 				nextState <= state + 10'b1;
@@ -442,65 +445,65 @@ module NextStateDecoder (
 			10'd153: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd155,10'd156: //STR Imm - OFF
+			10'd155,10'd156,10'd157: //STR Imm - OFF
 				nextState <= state + 10'b1;
-			10'd157: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd158: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd159,10'd160: //STR R - OFF
+			10'd159,10'd160,10'd161: //STR R - OFF
 				nextState <= state + 10'b1;
-			10'd161: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd162: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd163,10'd164: //STR Imm - PRE
+			10'd163,10'd164,10'd165: //STR Imm - PRE
 				nextState <= state + 10'b1;
-			10'd165: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd166: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd167,10'd168: //STR R - PRE
+			10'd167,10'd168,10'd169: //STR R - PRE
 				nextState <= state + 10'b1;
-			10'd169: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd170: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd171,10'd172: //STR Imm - POS
+			10'd171,10'd172,10'd173: //STR Imm - POS
 				nextState <= state + 10'b1;
-			10'd173: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd174: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd175,10'd176: //STR R - POS
+			10'd175,10'd176,10'd177: //STR R - POS
 				nextState <= state + 10'b1;
-			10'd177: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd178: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd179,10'd180: //STRB Imm - OFF
+			10'd179,10'd180,10'd181: //STRB Imm - OFF
 				nextState <= state + 10'b1;
-			10'd181: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd182: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd183,10'd184: //STRB R - OFF
+			10'd183,10'd184,10'd185: //STRB R - OFF
 				nextState <= state + 10'b1;
-			10'd185: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd186: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd187,10'd188: //STRB Imm - PRE
+			10'd187,10'd188,10'd189: //STRB Imm - PRE
 				nextState <= state + 10'b1;
-			10'd189: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd190: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd191,10'd192: //STRB R - PRE
+			10'd191,10'd192,10'd193: //STRB R - PRE
 				nextState <= state + 10'b1;
-			10'd193: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd194: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd195,10'd196: //STRB Imm - POS
+			10'd195,10'd196,10'd197: //STRB Imm - POS
 				nextState <= state + 10'b1;
-			10'd197: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd198: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd199,10'd200: //STRB R - POS
+			10'd199,10'd200,10'd201: //STRB R - POS
 				nextState <= state + 10'b1;
-			10'd201: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd202: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
 			10'd203,10'd204: //LDRD Imm + OFF
 				nextState <= state + 10'b1;
@@ -592,35 +595,35 @@ module NextStateDecoder (
 			10'd273: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd275,10'd276: //STRD Imm + OFF
+			10'd275,10'd276,10'd277: //STRD Imm + OFF
 				nextState <= state + 10'b1;
-			10'd277: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd278: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd279,10'd280: //STRD R + OFF
+			10'd279,10'd280,10'd281: //STRD R + OFF
 				nextState <= state + 10'b1;
-			10'd281: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd282: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd283,10'd284: //STRD Imm + PRE
+			10'd283,10'd284,10'd285: //STRD Imm + PRE
 				nextState <= state + 10'b1;
-			10'd285: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd286: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd287,10'd288: //STRD R + PRE
+			10'd287,10'd288,10'd289: //STRD R + PRE
 				nextState <= state + 10'b1;
-			10'd289: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd290: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd291,10'd292: //STRD Imm + POS
+			10'd291,10'd292,10'd293: //STRD Imm + POS
 				nextState <= state + 10'b1;
-			10'd293: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd294: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd295,10'd296: //STRD R + POS
+			10'd295,10'd296,10'd297: //STRD R + POS
 				nextState <= state + 10'b1;
-			10'd297: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd298: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
 			10'd299,10'd300: //LDRD Imm - OFF
 				nextState <= state + 10'b1;
@@ -715,112 +718,112 @@ module NextStateDecoder (
 			10'd371,10'd372: //STRD Imm - OFF
 				nextState <= state + 10'b1;
 			10'd373: //
-				if (MOC) nextState <= state + 10'b1;
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd375,10'd376: //STRD R - OFF
+			10'd375,10'd376,10'd377: //STRD R - OFF
 				nextState <= state + 10'b1;
-			10'd377: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd378: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd379,10'd380: //STRD Imm - PRE
+			10'd379,10'd380,10'd381: //STRD Imm - PRE
 				nextState <= state + 10'b1;
-			10'd381: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd382: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd383,10'd384: //STRD R - PRE
+			10'd383,10'd384,10'd385: //STRD R - PRE
 				nextState <= state + 10'b1;
-			10'd385: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd386: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd387,10'd388: //STRD Imm - POS
+			10'd387,10'd388,10'd389: //STRD Imm - POS
 				nextState <= state + 10'b1;
-			10'd389: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd390: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd391,10'd392: //STRD R - POS
+			10'd391,10'd392,10'd393: //STRD R - POS
 				nextState <= state + 10'b1;
-			10'd393: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd394: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
 			10'd395,10'd396: //LDMIA / LDMFD
 				nextState <= state + 10'b1;
 			10'd397: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd398,10'd399: //LDMIB / LDMED
+			10'd399,10'd400: //LDMIB / LDMED
 				nextState <= state + 10'b1;
-			10'd400: //
+			10'd401: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd401,10'd402: //LDMIDA / LDMFA
+			10'd403,10'd404: //LDMIDA / LDMFA
 				nextState <= state + 10'b1;
-			10'd403: //
+			10'd405: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd405,10'd406: //LDMDB / LDMEA
+			10'd407,10'd408: //LDMDB / LDMEA
 				nextState <= state + 10'b1;
-			10'd407: //
+			10'd409: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd409,10'd410: //STMIA / STMEA
+			10'd411,10'd412,10'd413: //STMIA / STMEA
 				nextState <= state + 10'b1;
-			10'd411: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd414: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd413,10'd414: //STMIB / STMFA
+			10'd415,10'd416,10'd417: //STMIB / STMFA
 				nextState <= state + 10'b1;
-			10'd415: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd418: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd417,10'd418: //STMDA / STMED
+			10'd419,10'd420,10'd421: //STMDA / STMED
 				nextState <= state + 10'b1;
-			10'd419: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd422: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd421,10'd422: //STMDB / STMFD
-				nextState <= state + 10'b1;
-			10'd423: //
-				if (MOC) nextState <= state + 10'b1;
-				else nextState <= state;
-			10'd424,10'd425: //LDMIA / LDMFD W
+			10'd423,10'd424,10'd425: //STMDB / STMFD
 				nextState <= state + 10'b1;
 			10'd426: //
-				if (MOC) nextState <= state + 10'b1;
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd427,10'd428: //LDMIB / LDMED W
+			10'd427,10'd428: //LDMIA / LDMFD W
 				nextState <= state + 10'b1;
 			10'd429: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd430,10'd431: //LDMIDA / LDMFA W
+			10'd431,10'd432: //LDMIB / LDMED W
 				nextState <= state + 10'b1;
-			10'd432: //
+			10'd433: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd434,10'd435: //LDMDB / LDMEA W
+			10'd435,10'd436: //LDMIDA / LDMFA W
 				nextState <= state + 10'b1;
-			10'd436: //
+			10'd437: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd438,10'd439: //STMIA / STMEA W
+			10'd439,10'd440: //LDMDB / LDMEA W
 				nextState <= state + 10'b1;
-			10'd440: //
+			10'd441: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd442,10'd443: //STMIB / STMFA W
+			10'd438,10'd439,10'd440: //STMIA / STMEA W
 				nextState <= state + 10'b1;
-			10'd444: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd441: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd446,10'd447: //STMDA / STMED W
+			10'd443,10'd444,10'd445: //STMIB / STMFA W
 				nextState <= state + 10'b1;
-			10'd448: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd446: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd450,10'd451: //STMDB / STMFD W
+			10'd447,10'd448,10'd449: //STMDA / STMED W
 				nextState <= state + 10'b1;
-			10'd452: //
-				if (MOC) nextState <= state + 10'b1;
+			10'd450: //
+				if (MOC) nextState <= 10'b1;
+				else nextState <= state;
+			10'd451,10'd452,10'd453: //STMDB / STMFD W
+				nextState <= state + 10'b1;
+			10'd454: //
+				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
 
 			default:
