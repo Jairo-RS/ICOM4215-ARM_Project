@@ -17,6 +17,16 @@ module main;
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
 		MA, MB, MC, MD, ME, OP, DT, IR, MOC, COND, clk, clr,
 		debug);
+		
+	function [31:0] makeADDRMode2;
+		input [3:0] cond;
+		input R, P, U, B, W, L;
+		input [3:0] Rn, Rd;
+		input [11:0] Rm;
+		begin
+			makeADDRMode2 = {cond,2'b01,R,P,U,B,W,L,Rn,Rd,Rm};
+		end
+	endfunction
 	
 	function [31:0] makeADDRMode3;
 		input [3:0] cond;
@@ -73,10 +83,24 @@ module main;
 		#200;
 		clk = 0;
 
-		//					COND P U I W L Rn	Rd	 Im   S H Rm
-		//IR = makeADDRMode3 (4'b0,1,0,1,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
+//ORR Reg       COND   |OP|S|Rn||Rd|	    |Rm|	 
+		//IR =32'b00000000110110001100000000001010;
+//ORR Imm Shft  COND   |OP|S|Rn||Rd|ImSh SH |Rm|	 
+		//IR =32'b00000000110010001100001100101010;
 		
-		//					COND P U S W L Rn	Rd	 
+//LDR Imm + Off			    COND R P U B W L Rn	  Rd	Rm	 
+		//IR = makeADDRMode2 (4'b0,0,1,1,0,0,1,4'b0,4'b0,12'b0);
+//LDRB R - Pre			    COND R P U B W L Rn	  Rd	Rm	 
+		//IR = makeADDRMode2 (4'b0,1,1,0,1,1,1,4'b0,4'b0,12'b0);
+//STRB R - Pos			    COND R P U B W L Rn	  Rd	Rm	 
+		//IR = makeADDRMode2 (4'b0,1,0,0,1,0,0,4'b0,4'b0,12'b0);
+		
+//LDRSB Imm - OFF	        COND P U I W L Rn	 Rd  Im   S H Rm
+		//IR = makeADDRMode3 (4'b0,1,0,1,0,1,4'b0,4'b0,3'b0,1,0,4'b0);
+//STRH R + POS	            COND P U I W L Rn	 Rd  Im       S H Rm
+		//IR = makeADDRMode3 (4'b0,0,1,0,0,0,4'b0,4'b0,3'b0,0,1,4'b0);
+		
+//STMDB / STMFD				  COND P U S W L Rn	  Rd	 
 		//IR = makeADDRMode4 (4'b0,1,0,0,0,0,4'b0,15'b0);
 		
 		//Branch
@@ -84,6 +108,7 @@ module main;
 		$display("IR %b", IR);
 
 		MOC = 1;
+		COND = 1;
 		// Testing states
 		#200;
 		$display("\n\nReset");
@@ -93,36 +118,69 @@ module main;
 		if (showClock) $display("Clock");
 		clk = 1;
 		clr = 0;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
+		//MOC = 0;
+
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
 		if (showClock) $display("Clock");
 		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
+		#200;
+		clk = 0;
+		#200;
+		if (showClock) $display("Clock");
+		clk = 1;
+		
 		#200;
 		clk = 0;
 		#200;
