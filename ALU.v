@@ -113,7 +113,7 @@ module ALU(input 		[31:0] 	inputA, inputB,
 						end
 			// 10010 MVN A + B + 4
 			5'b10010:	begin
-						out = inputA inputB + 32'd4;
+						out = inputA + inputB + 32'd4;
 						end	
 
 			default:	begin

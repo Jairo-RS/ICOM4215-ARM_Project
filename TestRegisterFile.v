@@ -2,11 +2,8 @@
 
 module test_regFile;
 	wire [31:0] A, B;
-
 	reg [31:0] C;
-
 	reg [3:0] regA, regB, deC;
-
 	reg Ld, Clk;
 
 	regFile rFile(A, B, C, regA, regB, deC, Ld, Clk);
