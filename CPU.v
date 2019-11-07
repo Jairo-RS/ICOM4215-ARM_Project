@@ -1,7 +1,7 @@
 `include "ControlUnit.v"
 `include "RegisterFile.v"
 `include "ALU.v"
-`include "ram256x32.v"
+`include "ram256x8.v"
 
 //TODO: 
 //	Implement Flag Register
@@ -43,7 +43,7 @@ module CPU ;
 	wire 	[7:0] 	address;
 	wire 	[31:0] 	ramOut;
 
-	ram256x32 ram1(ramOut, MOC, R_W, address, ramIn, MOV, DT);
+	ram256x8 ram1(ramOut, MOC, R_W, address, ramIn, MOV, DT);
 	
 	MAR mar(address, aluOut, MAR_ld);
 	
