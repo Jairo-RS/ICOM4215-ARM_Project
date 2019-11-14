@@ -1,16 +1,29 @@
 
-module ALU(input 		[31:0] 	inputA, inputB,
-			input 		[4:0] 	opCode,
-			input				carryIn,
-			output 	reg	[31:0] 	out, 
-			output 	reg			cFlag, zFlag, nFlag, vFlag
-	 );
+module ALU(
+	input 		[31:0] 	inputA, inputB,
+	input 		[4:0] 	opCode,
+	input				carryIn,
+	output 	reg	[31:0] 	out, 
+	output 	reg			cFlag, zFlag, nFlag, vFlag,
+	input				debug
+	);
 			
-	always @ (*) begin
+	task  print;
+		input port;
+		begin
+			$display("--------------------------- ALU ---------------------------");
+			$display("opCode \t\tinputA \t\tinputB \t\tout \tcFlag \tzFlag \tnFlag \tvFlag");
+			$display("%b \t%d \t%d \t%d \t%b \t%b \t%b \t%b ",
+				opCode, inputA, inputB, out, cFlag, zFlag, nFlag, vFlag);
+			$display("--------------------------- ALU ---------------------------");
+		end
+	endtask 
+	
+	always @ (inputA, inputB, opCode) begin
 		case(opCode) 
 			// 0000 AND		
 			5'b0000: 	begin
-						out = inputA & inputB;
+						out = (inputA & inputB);
 						end
 			// 0001 EOR		
 			5'b0001:	begin
@@ -105,15 +118,15 @@ module ALU(input 		[31:0] 	inputA, inputB,
 						end
 			// 10000 MVN A 
 			5'b10000:	begin
-						out = inputA;
+						out = (inputA===32'bX ? 32'b0: inputA);
 						end
 			// 10001 MVN A + 4
 			5'b10001:	begin
-						out = inputA + 32'd4;
+						out = (inputA===32'bX ? 32'b0: inputA) + 32'd4;
 						end
 			// 10010 MVN A + B + 4
 			5'b10010:	begin
-						out = inputA + inputB + 32'd4;
+						out = (inputA===32'bX ? 32'b0: inputA) + inputB + 32'd4;
 						end	
 
 			default:	begin
@@ -124,6 +137,7 @@ module ALU(input 		[31:0] 	inputA, inputB,
 						vFlag = 0;
 						end
 		endcase
+		if(debug) print(0);
     end
 	
 endmodule

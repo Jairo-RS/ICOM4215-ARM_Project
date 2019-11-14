@@ -2,13 +2,14 @@ module regFile(
 	output [31:0]PA, PB, 
 	input [31:0]PC, 
 	input [3:0]A, B, C, 
-	input RF, Clk);
+	input RF, Clk,
+	input debug);
 	
 	wire [31:0] Q0, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15;
 	wire [15:0] E;
 
 	decoder dec(E, C, RF);
-
+	
 	register R0(Q0, PC, E[0], Clk);
 	register R1(Q1, PC, E[1], Clk);
 	register R2(Q2, PC, E[2], Clk);
@@ -29,6 +30,15 @@ module regFile(
 	mux_16x1 mux_A(PA, Q0, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, A);
 	mux_16x1 mux_B(PB, Q0, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, B);
 
+	reg[58*8:0] header = "--------------------------- RF ---------------------------";
+
+	initial begin
+		if(debug) begin
+			$monitor("%s\nR0  %d\tR1  %d\tR2  %d\tR3  %d\tR4  %d\tR5  %d\tR6  %d\tR7  %d\nR8  %d\tR9  %d\tR10 %d\tR11 %d\tR12 %d\tR13 %d\tR14 %d\tR15 %d\n%s",
+					header,Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,header);
+		end
+	end
+	
 endmodule
 
 module decoder(
@@ -36,45 +46,43 @@ module decoder(
 	input 		[3:0]	D, 
 	input 				Ld);
 
-always @(D, Ld)
-   begin
-
-    if(Ld == 1'b0)
-	E <= 16'b0000000000000000;
-    else if(Ld == 1'b1)
-	if(D == 4'b0000)
-	    E <= 16'b0000000000000001;
-	else if( D == 4'b0001)
-	    E <= 16'b0000000000000010;
-	else if(D == 4'b0010)
-	    E <= 16'b0000000000000100;
-	else if(D == 4'b0011)
-	    E <= 16'b0000000000001000;
-	else if(D == 4'b0100)
-	    E <= 16'b0000000000010000;
-	else if(D == 4'b0101)
-	    E <= 16'b0000000000100000;
-	else if(D == 4'b0110)
-	    E <= 16'b0000000001000000;
-	else if(D == 4'b0111)
-	    E <= 16'b0000000010000000;
-	else if(D == 4'b1000)
-	    E <= 16'b0000000100000000;
-	else if(D == 4'b1001)
-	    E <= 16'b0000001000000000;
-	else if(D == 4'b1010)
-	    E <= 16'b0000010000000000;
-	else if(D == 4'b1011)
-	    E <= 16'b0000100000000000;
-	else if(D == 4'b1100)
-	    E <= 16'b0001000000000000;
-	else if(D == 4'b1101)
-	    E <= 16'b0010000000000000;
-	else if(D == 4'b1110)
-	    E <= 16'b0100000000000000;
-	else if(D == 4'b1111)
-	    E <= 16'b1000000000000000;
-   end
+	always @(D, Ld) begin
+		if(Ld == 1'b0)
+			E <= 16'b0000000000000000;
+		else if(Ld == 1'b1)
+			if(D == 4'b0000)
+				E <= 16'b0000000000000001;
+			else if( D == 4'b0001)
+				E <= 16'b0000000000000010;
+			else if(D == 4'b0010)
+				E <= 16'b0000000000000100;
+			else if(D == 4'b0011)
+				E <= 16'b0000000000001000;
+			else if(D == 4'b0100)
+				E <= 16'b0000000000010000;
+			else if(D == 4'b0101)
+				E <= 16'b0000000000100000;
+			else if(D == 4'b0110)
+				E <= 16'b0000000001000000;
+			else if(D == 4'b0111)
+				E <= 16'b0000000010000000;
+			else if(D == 4'b1000)
+				E <= 16'b0000000100000000;
+			else if(D == 4'b1001)
+				E <= 16'b0000001000000000;
+			else if(D == 4'b1010)
+				E <= 16'b0000010000000000;
+			else if(D == 4'b1011)
+				E <= 16'b0000100000000000;
+			else if(D == 4'b1100)
+				E <= 16'b0001000000000000;
+			else if(D == 4'b1101)
+				E <= 16'b0010000000000000;
+			else if(D == 4'b1110)
+				E <= 16'b0100000000000000;
+			else if(D == 4'b1111)
+				E <= 16'b1000000000000000;
+	end
 endmodule
 
 
@@ -83,11 +91,10 @@ module register(
 	input 		[31:0] 	D, 
 	input 				Ld, Clk);
 
-always @(posedge Clk)
-   begin
-   if(!Ld == 1'b1)
-     Q <= D;
-   end
+	always @(posedge Clk)
+		if(Ld == 1'b1) begin
+			Q <= D;
+	end
 
 endmodule
 
