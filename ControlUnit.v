@@ -20,14 +20,15 @@ module ControlUnit (
 	StateReg stateRegister(state, nextState, clk, clr);
 	
 	ControlSignalsEncoder signalDecoder(FR_ld, RF_ld, IR_ld, MAR_ld, 
-		 MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, state, IR);
+		 MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, state);
 		 
 	always @(posedge clk) begin
 		if(debug) begin
-			$display("---------- State: %d ----------", state);
+			$display("----------------------- State: %d -----------------------", state);
 			$display("FR_ld \tRF_ld \tIR_ld \tMAR_ld \tMDR_ld \tR_W \tMOV \tMA \tMB \tMC \tMD \tME \tOP \tDT");
 			$display("%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b",
 				FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT);
+			$display("IR %b", IR);
 		end
 	end
 	
@@ -60,8 +61,7 @@ module ControlSignalsEncoder (
 	output reg MD, ME,
     output reg 	[4:0] 	OP,
 	output reg 	[1:0] 	DT,
-    input 		[9:0] 	state,
-	input 		[31:0] 	IR);
+    input 		[9:0] 	state);
 	
 	always @ (state) begin
         case (state)
@@ -78,7 +78,7 @@ module ControlSignalsEncoder (
 			10'd2: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b10;
-				MB = 2'b00;	MC = 2'b01;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b01;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b10;
 			end
 			10'd3: //
 			begin
