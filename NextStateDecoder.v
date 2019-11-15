@@ -14,7 +14,7 @@ module NextStateDecoder (
 			10'd3: if(MOC) nextState <= 10'd4;
             	else nextState <= 10'd3;
 			10'd4: begin
-				if (!Cond)	begin
+			if (!Cond)	begin
 					nextState <= 10'd1;
 				end
 				else begin
@@ -28,7 +28,7 @@ module NextStateDecoder (
 						else nextState <= 10'd5;
 					
 					//Data Processing Immediate
-					else if (IR[27:25] == 3'b001 & IR[20] == 1'b1) 
+					else if (IR[27:25] == 3'b001)
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
 							nextState <= 10'd10;

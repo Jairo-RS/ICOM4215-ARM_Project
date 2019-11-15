@@ -1,7 +1,7 @@
 module FlagRegister(
-    output reg [3:0] Q, 
-    input [3:0] D, 
-    input clk, FR_ld);
+    output reg 	[3:0] 	Q, 
+    input 		[3:0] 	D, 
+    input 				FR_ld, clk);
 
     always @(posedge clk) begin
         if(FR_ld)
@@ -78,7 +78,7 @@ module ConditionTester(
 			end
 
             4'b1100: begin //GT (Signed Greater than)
-            	if(zFlag == 0 && nFlag == V) Cond = 1;
+            	if(zFlag == 0 && nFlag == vFlag) Cond = 1;
 				else Cond = 0;
 			end
 
