@@ -3,6 +3,7 @@
 `include "ALU.v"
 `include "ram256x8.v"
 `include "FlagRegister.v"
+`include "ShifterSignExtender.v"
 
 module CPU(
 	//input 		[31:0] 	instructionReg,
@@ -28,7 +29,7 @@ module CPU(
 	wire cFlag, zFlag, nFlag, vFlag;
 	wire [31:0] aluA;
 	reg [31:0] aluB;
-	reg carryIn;
+	wire carryIn;
 	wire [31:0] aluOut;
 	reg [4:0] aluOP;
 	
@@ -58,6 +59,9 @@ module CPU(
 	
 	ConditionTester condTester(COND, flags[3], flags[2], flags [1], flags[0], IR[31:28]);
 	
+	wire [31:0] shiftOut;
+	ShifterSignExtender shfterExtender(shiftOut, carryIn, cFlag, IR, PB);
+	
 	//Modeling All Muxes in Datapath
 	always @ (clk) begin
 		case(MA)
@@ -69,7 +73,7 @@ module CPU(
 		endcase
 		case(MB)
 			2'b00:	aluB <= PB;
-			2'b01:	aluB <= IR[7:0]; // Shifter
+			2'b01:	aluB <= shiftOut; // Shifter
 			2'b10:	aluB <= ramIn; // RAM
 			2'b11:	aluB <= 32'b0;
 			default: aluB <= PB;

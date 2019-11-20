@@ -12,9 +12,9 @@ module ALU(
 		input port;
 		begin
 			$display("--------------------------- ALU ---------------------------");
-			$display("opCode \t\tinputA \t\tinputB \t\tout \tcFlag \tzFlag \tnFlag \tvFlag");
-			$display("%b \t%d \t%d \t%d \t%b \t%b \t%b \t%b ",
-				opCode, inputA, inputB, out, cFlag, zFlag, nFlag, vFlag);
+			$display("opCode \t\tinputA \t\tinputB \tcIn \t\tout \tcFlag \tzFlag \tnFlag \tvFlag");
+			$display("%b \t%d \t%d \t%d \t%d \t%b \t%b \t%b \t%b ",
+				opCode, inputA, inputB, carryIn, out, cFlag, zFlag, nFlag, vFlag);
 			$display("--------------------------- ALU ---------------------------");
 		end
 	endtask 
@@ -83,7 +83,7 @@ module ALU(
 						nFlag = out[31];
 						vFlag = 0;
 						end
-			// 1010 SUB		
+			// 1010 SUB S
 			5'b1010:	begin
 						out = inputA - inputB;
 						cFlag = out[31];
@@ -92,7 +92,7 @@ module ALU(
 						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
 							(inputA[31] & inputB[31] & !out[31]);
 						end
-			// 1011 ADD		
+			// 1011 ADD	S
 			5'b1011:	begin
 						{cFlag,out} = inputA + inputB;
 						zFlag = ~(|out);

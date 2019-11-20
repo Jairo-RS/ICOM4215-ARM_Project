@@ -22,9 +22,9 @@ module ControlUnit (
 	ControlSignalsEncoder signalDecoder(FR_ld, RF_ld, IR_ld, MAR_ld, 
 		 MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, state);
 		 
-	always @(posedge clk) begin
+	always @(state) begin
 		if(debug) begin
-			$display("----------------------- State: %d -----------------------", state);
+			$display("======================= State: %d =======================", state);
 			$display("FR_ld \tRF_ld \tIR_ld \tMAR_ld \tMDR_ld \tR_W \tMOV \tMA \tMB \tMC \tMD \tME \tOP \tDT");
 			$display("%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b",
 				FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT);

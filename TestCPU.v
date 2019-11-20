@@ -1,8 +1,6 @@
 `include "CPU.v"
 
 //TODO: 
-//	Test Working ALU CU and RegF together
-//  Implement Shifter Extender
 //  Verify Overflow Flag (ALU) when subtracting and the anser is negative
 module main;
 	integer 		fi, fo, code;
@@ -10,7 +8,7 @@ module main;
 	reg 	[7:0] 	data;
 	
 	reg [31:0] IR;
-	CPU cpu(1'b1,1'b0,1'b1,1'b0);
+	CPU cpu(1'b1,1'b1,1'b1,1'b0);
 		
     initial begin
 		fi =$fopen("input_file0.txt","r");
