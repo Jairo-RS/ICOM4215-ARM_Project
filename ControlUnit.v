@@ -22,7 +22,7 @@ module ControlUnit (
 	ControlSignalsEncoder signalDecoder(FR_ld, RF_ld, IR_ld, MAR_ld, 
 		 MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, state);
 		 
-	always @(state) begin
+	always @(nextState) begin
 		if(debug) begin
 			$display("======================= State: %d =======================", state);
 			$display("FR_ld \tRF_ld \tIR_ld \tMAR_ld \tMDR_ld \tR_W \tMOV \tMA \tMB \tMC \tMD \tME \tOP \tDT");
@@ -128,12 +128,12 @@ module ControlSignalsEncoder (
 			10'd12: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd13: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd14: //
 			begin
@@ -148,12 +148,12 @@ module ControlSignalsEncoder (
 			10'd16: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd17: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd18: //
 			begin
@@ -168,12 +168,12 @@ module ControlSignalsEncoder (
 			10'd20: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd21: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd22: //
 			begin
@@ -188,12 +188,12 @@ module ControlSignalsEncoder (
 			10'd24: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd25: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd26: //
 			begin
@@ -208,12 +208,12 @@ module ControlSignalsEncoder (
 			10'd28: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b10;
 			end
 			10'd29: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd30: //
 			begin
@@ -228,12 +228,12 @@ module ControlSignalsEncoder (
 			10'd32: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b10;
 			end
 			10'd33: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd34: //
 			begin
@@ -323,12 +323,12 @@ module ControlSignalsEncoder (
 			10'd51: //LDRB Imm + POS
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
 			end
 			10'd52: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
 			end
 			10'd53: //
 			begin
@@ -368,12 +368,12 @@ module ControlSignalsEncoder (
 			10'd60: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 0;	MOV = 0;	MA = 2'b01;
-				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 1;	OP = 5'b10000;	DT = 2'b00;
 			end
 			10'd61: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd62: //
 			begin
@@ -608,12 +608,12 @@ module ControlSignalsEncoder (
 			10'd108: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd109: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd110: //
 			begin
@@ -628,12 +628,12 @@ module ControlSignalsEncoder (
 			10'd112: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd113: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd114: //
 			begin
@@ -648,12 +648,12 @@ module ControlSignalsEncoder (
 			10'd116: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd117: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd118: //
 			begin
@@ -668,12 +668,12 @@ module ControlSignalsEncoder (
 			10'd120: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
 			end
 			10'd121: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd122: //
 			begin
@@ -688,12 +688,12 @@ module ControlSignalsEncoder (
 			10'd124: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b10;
 			end
 			10'd125: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd126: //
 			begin
@@ -708,12 +708,12 @@ module ControlSignalsEncoder (
 			10'd128: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b10;
 			end
 			10'd129: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b10;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd130: //
 			begin
@@ -1088,12 +1088,12 @@ module ControlSignalsEncoder (
 			10'd204: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd205: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd206: //
 			begin
@@ -1108,12 +1108,12 @@ module ControlSignalsEncoder (
 			10'd208: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd209: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd210: //
 			begin
@@ -1128,12 +1128,12 @@ module ControlSignalsEncoder (
 			10'd212: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd213: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd214: //
 			begin
@@ -1148,12 +1148,12 @@ module ControlSignalsEncoder (
 			10'd216: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd217: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd218: //
 			begin
@@ -1168,12 +1168,12 @@ module ControlSignalsEncoder (
 			10'd220: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b11;
 			end
 			10'd221: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd222: //
 			begin
@@ -1188,12 +1188,12 @@ module ControlSignalsEncoder (
 			10'd224: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b11;
 			end
 			10'd225: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd226: //
 			begin
@@ -1328,12 +1328,12 @@ module ControlSignalsEncoder (
 			10'd252: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd253: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd254: //
 			begin
@@ -1348,12 +1348,12 @@ module ControlSignalsEncoder (
 			10'd256: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd257: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd258: //
 			begin
@@ -1368,12 +1368,12 @@ module ControlSignalsEncoder (
 			10'd260: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd261: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd262: //
 			begin
@@ -1388,12 +1388,12 @@ module ControlSignalsEncoder (
 			10'd264: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd265: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd266: //
 			begin
@@ -1408,12 +1408,12 @@ module ControlSignalsEncoder (
 			10'd268: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b01;
 			end
 			10'd269: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd270: //
 			begin
@@ -1428,12 +1428,12 @@ module ControlSignalsEncoder (
 			10'd272: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b01;
 			end
 			10'd273: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd274: //
 			begin
@@ -1568,12 +1568,12 @@ module ControlSignalsEncoder (
 			10'd300: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd301: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd302: //
 			begin
@@ -1588,12 +1588,12 @@ module ControlSignalsEncoder (
 			10'd304: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd305: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd306: //
 			begin
@@ -1608,12 +1608,12 @@ module ControlSignalsEncoder (
 			10'd308: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd309: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd310: //
 			begin
@@ -1628,12 +1628,12 @@ module ControlSignalsEncoder (
 			10'd312: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
 			end
 			10'd313: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd314: //
 			begin
@@ -1648,12 +1648,12 @@ module ControlSignalsEncoder (
 			10'd316: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b11;
 			end
 			10'd317: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd318: //
 			begin
@@ -1668,12 +1668,12 @@ module ControlSignalsEncoder (
 			10'd320: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b11;
 			end
 			10'd321: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd322: //
 			begin
@@ -1808,12 +1808,12 @@ module ControlSignalsEncoder (
 			10'd348: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd349: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd350: //
 			begin
@@ -1828,12 +1828,12 @@ module ControlSignalsEncoder (
 			10'd352: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd353: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd354: //
 			begin
@@ -1848,12 +1848,12 @@ module ControlSignalsEncoder (
 			10'd356: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd357: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd358: //
 			begin
@@ -1868,12 +1868,12 @@ module ControlSignalsEncoder (
 			10'd360: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
 			end
 			10'd361: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd362: //
 			begin
@@ -1888,12 +1888,12 @@ module ControlSignalsEncoder (
 			10'd364: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b01;
 			end
 			10'd365: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd366: //
 			begin
@@ -1908,12 +1908,12 @@ module ControlSignalsEncoder (
 			10'd368: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00010;	DT = 2'b01;
 			end
 			10'd369: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 1;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b01;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
 			end
 			10'd370: //
 			begin

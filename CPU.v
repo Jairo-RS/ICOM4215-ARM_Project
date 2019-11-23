@@ -6,7 +6,6 @@
 `include "ShifterSignExtender.v"
 
 module CPU(
-	//input 		[31:0] 	instructionReg,
 	input				debugCU, debugALU, debugRF, debugRAM
 	);
 	
@@ -45,7 +44,6 @@ module CPU(
 	wire 	[31:0] 	ramOut;
 
 	ram256x8 ram(ramOut, MOC, R_W, address, ramIn, MOV, DT, debugRAM);
-	//DummyMemory dMem(ramOut, MOC, instructionReg, MOV, R_W);
 
 	MAR mar(address, aluOut, MAR_ld);
 	
@@ -106,7 +104,7 @@ module MAR(
 	
 	always @ (D, MAR_ld) begin
 		if(MAR_ld)
-			Q <= D[7:0];
+			Q = D[7:0];
 	end
 	
 endmodule
@@ -118,7 +116,7 @@ module MDR(
 	
 	always @ (D, MDR_ld) begin
 		if(MDR_ld)
-			Q <= D;
+			Q = D;
 	end
 	
 endmodule
@@ -130,22 +128,7 @@ module InstructionReg(
 	
 	always @ (D, IR_ld) begin
 		if(IR_ld)
-			Q <= D;
-	end
-	
-endmodule
-
-module DummyMemory(
-	output reg	[31:0]	Q,
-	output reg			MOC,
-	input 		[31:0]	D,
-	input				MOV, R_W);
-	
-	always @ (D, MOV) begin
-		if(MOV & R_W) begin
-			Q <= D;
-			MOC =1;
-		end
+			Q = D;
 	end
 	
 endmodule
