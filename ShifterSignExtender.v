@@ -8,9 +8,6 @@ module ShifterSignExtender(
 	reg leastBit; //least significant bit
 	integer i;
 	reg debug =0;
-	
-		reg [63:0] temp2; //temporary register
-
 
 	task  print;
 		input[58*8:0] mode;
@@ -89,7 +86,7 @@ module ShifterSignExtender(
                     shiftCout <= cIn;
                 else
                     shiftCout <= out[31];
-				print("Data Processing Imm Shifter", IR[7:0], 2 * IR[11:8],out);
+				print("Data Processing Imm Shifter", {temp, temp}, 2 * IR[11:8],out);
 		    end
 
 			3'b010: begin //Load/Store immediate
@@ -110,11 +107,8 @@ module ShifterSignExtender(
 			end
 
 			3'b101: begin //Branch and Branch & Link
-				//IR[23:0]*4 -> offset x 4
-				//{8{IR[23]}} -> concatenating 8 copies
-				//assign out = { {8{IR[23]}}, IR[23:0]} << 2;
-				out <= {IR[23],IR[23],IR[23],IR[23],IR[23],IR[23],IR[23],IR[23],(IR[23:0]*24'd4) };
-				//print("Branch and Branch & Link", 0, 0;
+				{out} <= {{8{IR[23]}},IR[23:0]} << 2;
+				print("Branch and Branch & Link", IR[23:0], 0,out);
 			end
 
 			default: begin

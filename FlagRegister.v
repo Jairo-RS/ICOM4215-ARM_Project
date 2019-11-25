@@ -16,7 +16,6 @@ module ConditionTester(
 
     always@(IR, cFlag, zFlag, nFlag, vFlag) begin
         case(IR)
-
             4'b0000: begin //EQ (Equal)
             	if(zFlag == 1) Cond = 1;
 				else Cond = 0;

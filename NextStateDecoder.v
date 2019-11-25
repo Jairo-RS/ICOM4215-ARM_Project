@@ -822,7 +822,8 @@ module NextStateDecoder (
 			10'd454: //
 				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-
+			10'd460: //BL
+				nextState <= state + 10'b1;
 			default:
 				nextState <= 10'd1;
             

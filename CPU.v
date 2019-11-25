@@ -80,7 +80,7 @@ module CPU(
 			2'b00:	C <= IR[15:12];
 			2'b01:	C <= 4'b1111;
 			2'b10:	C <= IR[19:16];
-			2'b11:	C <= cuC;
+			2'b11:	C <= 4'b1110;
 			default: C <= IR[15:12];
 		endcase
 		case(MD)

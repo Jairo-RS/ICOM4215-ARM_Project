@@ -38,7 +38,11 @@ module main;
             #10 cpu.clk <= !cpu.clk;
 			#10 cpu.clk <= !cpu.clk;		
         end
-		while (cpu.registerFile.Q15 <= 32'd24) begin
+		$display("*********************************************");
+		$display("********** Finished Initialization **********");
+		$display("*********************************************");
+		while (cpu.IR !== 32'bX) begin
+		//while (cpu.registerFile.Q15 <= 32'd24) begin
 			#10 cpu.clk <= !cpu.clk;
 			#10 cpu.clk <= !cpu.clk;
 		end
