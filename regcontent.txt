@@ -1,15 +1,15 @@
-Data of REG 0: 00000000 00000000 00000000 00000000
-             		  0 	  0 	  0 	  0
-Data of REG 1: 00000000 00000000 00000000 00101000
-             		  0 	  0 	  0 	 40
-Data of REG 2: 00000000 00000000 00000000 00001011
-             		  0 	  0 	  0 	 11
-Data of REG 3: 00000000 00000000 00000000 00000110
-             		  0 	  0 	  0 	  6
+Data of REG 0: 00000000 00000000 00000000 00001000
+             		  0 	  0 	  0 	  8
+Data of REG 1: 00000010 00000100 00001000 00010000
+             		  2 	  4 	  8 	 16
+Data of REG 2: 00001000 00000100 00000010 00000001
+             		  8 	  4 	  2 	  1
+Data of REG 3: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
 Data of REG 4: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
              		  x 	  x 	  x 	  x
-Data of REG 5: 00000000 00000000 00000000 00001011
-             		  0 	  0 	  0 	 11
+Data of REG 5: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
 Data of REG 6: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
              		  x 	  x 	  x 	  x
 Data of REG 7: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
@@ -28,5 +28,5 @@ Data of REG 13: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
              		  x 	  x 	  x 	  x
 Data of REG 14: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
              		  x 	  x 	  x 	  x
-Data of REG 15: 00000000 00000000 00000000 00110100
-             		  0 	  0 	  0 	 52
+Data of REG 15: 00000000 00000000 00000000 00011000
+             		  0 	  0 	  0 	 24

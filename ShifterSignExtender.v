@@ -1,7 +1,7 @@
 module ShifterSignExtender(
 	output reg [31:0] 	out, 
 	output reg 			shiftCout,
-	input 				cIn,
+	input 				cIn, 
 	input [31:0] IR, Rm);
 	
 	reg [31:0] temp; //temporary register
@@ -27,9 +27,20 @@ module ShifterSignExtender(
 	endtask 
 
 	always @(IR, Rm) begin
-		case(IR[27:25])
-			3'b000: begin //Data processing immediate shift
-				if(IR[4] == 1'b0) begin
+		if((IR[27:25] == 3'b001)) begin //Data processing immediate
+			temp = IR[7:0];
+            {out} = {temp, temp} >> (2 * IR[11:8]);
+			if(IR[11:8] == 4'b0000)
+				shiftCout <= cIn;
+            else
+                shiftCout <= out[31];
+			print("Data Processing Imm Shifter", {temp, temp}, 2 * IR[11:8],out);
+		end
+		
+		else if((IR[27:25] == 3'b000 && IR[7] == 1'b0 && IR[4] == 1'b1)) //Data processing register shift
+			$display("Error: Data processing Shift by Reg not implemented");
+		
+        else if((IR[27:25] == 3'b000 && IR[4] == 1'b0)) //Data processing immediate shifter
 					case(IR[6:5])
 						2'b00: begin //LSL
 							out = (Rm << IR[11:7]);
@@ -74,47 +85,42 @@ module ShifterSignExtender(
 							print("Data Processing Imm ROR", Rm, IR[11:7],temp);
 						end
 					endcase
+		else if(IR[27:25] == 3'b010) begin //Load/Store immediate
+			out <= IR[11:0];
+			print("Data Load/Store Imm", IR[11:0], 0,IR[11:0]);
+		end
+		
+		else if(IR[27:25] == 3'b011) begin //Load/Store register
+			temp <= IR[7:0];
+			for(i=0; i<(IR[11:8])*2; i=i+1)
+				begin
+					leastBit <= temp[0];
+					temp <= temp >> 1;
+					temp[31] <= leastBit;
 				end
-				else begin//Data processing register shift
-					$display("Error: Data processing Shift by Reg not implemented");
-				end
+			out <= temp;
+			print("Data Load/Store Reg", IR[7:0], IR[11:8]*2,temp);
+		end
+		
+		else if(IR[27:25] == 3'b000 && IR[7] == 1'b1 && IR[4] == 1'b1) //Load/Store Multiple
+            // Immediate
+            if(IR[22] == 1'b1) begin
+                {out} <= {IR[11:8], IR[3:0]};
+				print("Load/Store Multiple Imm", IR[11:8], IR[3:0],out);
 			end
-			3'b001: begin //Data processing immediate
-				temp = IR[7:0];
-                {out} = {temp, temp} >> (2 * IR[11:8]);
-				if(IR[11:8] == 4'b0000)
-                    shiftCout <= cIn;
-                else
-                    shiftCout <= out[31];
-				print("Data Processing Imm Shifter", {temp, temp}, 2 * IR[11:8],out);
-		    end
-
-			3'b010: begin //Load/Store immediate
-				out <= IR[11:0];
-				print("Data Load/Store Imm", IR[11:0], 0,IR[11:0]);
+            // Register
+            else begin
+                {out} <= Rm;
+				print("Load/Store Multiple Reg", Rm, 0,out);
 			end
-
-			3'b011: begin //Load/Store register
-				temp <= IR[7:0];
-				for(i=0; i<(IR[11:8])*2; i=i+1)
-					begin
-						leastBit <= temp[0];
-						temp <= temp >> 1;
-						temp[31] <= leastBit;
-					end
-				out <= temp;
-				print("Data Load/Store Reg", IR[7:0], IR[11:8]*2,temp);
-			end
-
-			3'b101: begin //Branch and Branch & Link
-				{out} <= {{8{IR[23]}},IR[23:0]} << 2;
-				print("Branch and Branch & Link", IR[23:0], 0,out);
-			end
-
-			default: begin
-				out <= Rm;
-				//print("Default", 0, 0;
-			end
-		endcase
+		else if(IR[27:25] == 3'b101) begin //Branch and Branch & Link
+			{out} <= {{8{IR[23]}},IR[23:0]} << 2;
+			print("Branch and Branch & Link", IR[23:0], 0,out);
+		end
+		
+		else begin
+			out <= Rm;
+			print("Default", 0,0,out);
+		end
 	end
 endmodule

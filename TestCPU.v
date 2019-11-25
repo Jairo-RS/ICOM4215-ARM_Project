@@ -1,7 +1,8 @@
 `include "CPU.v"
 
 //TODO: 
-//  Verify Overflow Flag (ALU) when subtracting and the anser is negative
+//  Finish Addressing Mode 3 
+//	Start Load Store Multiple
 module main;
 	integer 		fi, fo, code;
 	reg 	[7:0] 	Address;

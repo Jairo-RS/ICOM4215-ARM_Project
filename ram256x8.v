@@ -6,6 +6,7 @@ module ram256x8(
 	input 		[31:0] 	DataIn,
 	input 				MOV,
 	input  		[1:0]	DataType,
+	input  				SIGN,
 	input				debug);
 
 	reg [7:0] Mem[0:255];
@@ -37,14 +38,20 @@ module ram256x8(
 				case (DataType)
 					2'b00:begin	//Byte
 						MOC = 0;
-						DataOut	=	{23'b0,Mem[Address]};
+						if(SIGN)
+							DataOut	=	{ {24{Mem[Address][7]}}, Mem[Address] };
+						else 
+							DataOut	=	{24'b0,Mem[Address]};
 						MOC =1;
 						if(debug) printOut(0);
 					end
 
 					2'b01: begin	//half word
 						MOC = 0;
-						DataOut	=	{16'b0, Mem[Address], Mem[Address+1]};
+						if(SIGN)
+							DataOut	=	{ {16{Mem[Address][7]}}, Mem[Address], Mem[Address+1]};
+						else 
+							DataOut	=	{16'b0, Mem[Address], Mem[Address+1]};
 						MOC = 1;
 						if(debug) printOut(0);
 					end
