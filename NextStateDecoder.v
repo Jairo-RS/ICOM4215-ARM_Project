@@ -19,13 +19,13 @@ module NextStateDecoder (
 				end
 				else begin
 					//Following Instructions Format Table
-					//Data Processing Register
-					if(IR[27:25] == 3'b000 & IR[6:4] == 3'b000)
+					//Shift by immediate
+					if(IR[27:25] == 3'b000 & IR[4] == 1'b0) 
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
-							nextState <= 10'd9;
-						else if(IR[20])	nextState <= 10'd7;
-						else nextState <= 10'd5;
+							nextState <= 10'd10;
+						else if(IR[20])	nextState <= 10'd8;
+						else nextState <= 10'd6;
 					
 					//Data Processing Immediate
 					else if (IR[27:25] == 3'b001)
@@ -37,20 +37,17 @@ module NextStateDecoder (
 					
 					//Shift by register
 					else if(IR[27:25] == 3'b000 & IR[7] == 1'b0 & IR[4] == 1'b1) begin
-						//TST
-						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
-							nextState <= 10'd10;
-						else if(IR[20])	nextState <= 10'd8;
-						else nextState <= 10'd6;
+						$display("Error: Data Processing Shift by register not implemented");
+						nextState <= 10'd1;
 					end
 					
-					//Shift by immediate
-					else if(IR[27:25] == 3'b000 & IR[4] == 1'b0) 
+					//Data Processing Register
+					else if(IR[27:25] == 3'b000 & IR[6:4] == 3'b000)
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
-							nextState <= 10'd10;
-						else if(IR[20])	nextState <= 10'd8;
-						else nextState <= 10'd6;
+							nextState <= 10'd9;
+						else if(IR[20])	nextState <= 10'd7;
+						else nextState <= 10'd5;
 					
 					//Load and Store
 					else if(IR[27:25] == 3'b010) begin //Immediate
@@ -115,7 +112,7 @@ module NextStateDecoder (
 							end
 							else begin
 								$display("Error: LDRH not implemented");
-								nextState <= 10'd0;
+								nextState <= 10'd1;
 							end
 						end
 						else begin	// STRH LDRD STRD
@@ -825,7 +822,8 @@ module NextStateDecoder (
 			10'd454: //
 				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-
+			10'd460: //BL
+				nextState <= state + 10'b1;
 			default:
 				nextState <= 10'd1;
             

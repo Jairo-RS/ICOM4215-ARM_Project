@@ -12,14 +12,14 @@ module ALU(
 		input port;
 		begin
 			$display("--------------------------- ALU ---------------------------");
-			$display("opCode \t\tinputA \t\tinputB \t\tout \tcFlag \tzFlag \tnFlag \tvFlag");
-			$display("%b \t%d \t%d \t%d \t%b \t%b \t%b \t%b ",
-				opCode, inputA, inputB, out, cFlag, zFlag, nFlag, vFlag);
+			$display("opCode \t\tinputA \t\tinputB \tcIn \t\tout \tcFlag \tzFlag \tnFlag \tvFlag");
+			$display("%b \t%d \t%d \t%d \t%d \t%b \t%b \t%b \t%b ",
+				opCode, inputA, inputB, carryIn, out, cFlag, zFlag, nFlag, vFlag);
 			$display("--------------------------- ALU ---------------------------");
 		end
 	endtask 
 	
-	always @ (inputA, inputB, opCode) begin
+	always @ (*) begin
 		case(opCode) 
 			// 0000 AND		
 			5'b0000: 	begin
@@ -44,7 +44,7 @@ module ALU(
 			// 0101 ADC		
 			5'b0101:	begin
 						{cFlag,out} = inputA + inputB + carryIn;
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
 							(inputA[31] & inputB[31] & !out[31]);
@@ -53,7 +53,7 @@ module ALU(
 			5'b0110:	begin
 						out = inputA - inputB - !carryIn;
 						cFlag = out[31];
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
 							(inputA[31] & inputB[31] & !out[31]);
@@ -62,7 +62,7 @@ module ALU(
 			5'b0111:	begin
 						out = inputB - inputA - !carryIn;
 						cFlag = out[31];
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
 							(inputA[31] & inputB[31] & !out[31]);
@@ -71,7 +71,7 @@ module ALU(
 			5'b1000: 	begin
 						out = inputA & inputB;
 						cFlag = out[31];
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = 0;
 						end
@@ -79,30 +79,30 @@ module ALU(
 			5'b1001:	begin
 						out = inputA ^ inputB;
 						cFlag = out[31];
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = 0;
 						end
-			// 1010 SUB		
+			// 1010 SUB S
 			5'b1010:	begin
 						out = inputA - inputB;
 						cFlag = out[31];
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
 							(inputA[31] & inputB[31] & !out[31]);
 						end
-			// 1011 ADD		
+			// 1011 ADD	S
 			5'b1011:	begin
 						{cFlag,out} = inputA + inputB;
-						zFlag = ~(|out);
+						zFlag = ~(out);
 						nFlag = out[31];
 						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
 							(inputA[31] & inputB[31] & !out[31]);
 						end		
 			// 1100 ORR	
 			5'b1100:	begin
-						out = inputA | inputB;
+						out = (inputA | inputB);
 						end
 			// 1101 MOV	B
 			5'b1101:	begin

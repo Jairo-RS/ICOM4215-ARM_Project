@@ -1,8 +1,126 @@
-Data of Addr 00000100 = 10101101000000001101001110011000 | 2902512536                   35
-Data of Addr 00001000 = 11011101111110100000000000000000 | 3724148736                   37
-Data of Addr 00001100 = 10000001101111111111111110010111 | 2176843671                   39
-Data of Addr 00010000 = 00000000000000000000000010010111 |        151                   46
-Data of Addr 00010100 = 00000000000000001000000110010111 |      33175                   48
-Data of Addr 00011000 = 11111111110100111000000110010111 | 4292051351                   50
-Data of Addr 00011100 = 00000000000000000000000000000001 |          1                   52
-Data of Addr 00100000 = 00000000000000000000000000000011 |          3                   54
+Data of Addr 00000000: 11100010 00000001 00000000 00000000
+             			226 	  1 	  0 	  0
+Data of Addr 00000100: 11100011 10000000 00010000 00101000
+             			227 	128 	 16 	 40
+Data of Addr 00001000: 11100111 11010001 00100000 00000000
+             			231 	209 	 32 	  0
+Data of Addr 00001100: 11100101 11010001 00110000 00000010
+             			229 	209 	 48 	  2
+Data of Addr 00010000: 11100000 10000000 01010000 00000000
+             			224 	128 	 80 	  0
+Data of Addr 00010100: 11100000 10000010 01010000 00000101
+             			224 	130 	 80 	  5
+Data of Addr 00011000: 11100010 01010011 00110000 00000001
+             			226 	 83 	 48 	  1
+Data of Addr 00011100: 00011010 11111111 11111111 11111101
+             			 26 	255 	255 	253
+Data of Addr 00100000: 11100101 11000001 01010000 00000011
+             			229 	193 	 80 	  3
+Data of Addr 00100100: 11101010 00000000 00000000 00000001
+             			234 	  0 	  0 	  1
+Data of Addr 00101000: 00001011 00000101 00000111 00001011
+             			 11 	  5 	  7 	 11
+Data of Addr 00101100: 11101010 11111111 11111111 11111111
+             			234 	255 	255 	255
+Data of Addr 00110000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 00110100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 00111000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 00111100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01000000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01000100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01001000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01001100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01010000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01010100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01011000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01011100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01100000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01100100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01101000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01101100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01110000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01110100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01111000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 01111100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10000000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10000100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10001000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10001100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10010000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10010100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10011000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10011100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10100000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10100100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10101000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10101100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10110000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10110100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10111000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 10111100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11000000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11000100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11001000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11001100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11010000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11010100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11011000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11011100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11100000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11100100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11101000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11101100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11110000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11110100: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x
+Data of Addr 11111000: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             			  x 	  x 	  x 	  x

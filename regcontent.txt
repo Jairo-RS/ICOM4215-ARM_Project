@@ -1,0 +1,32 @@
+Data of REG 0: 00000000 00000000 00000000 00000000
+             		  0 	  0 	  0 	  0
+Data of REG 1: 00000000 00000000 00000000 00101000
+             		  0 	  0 	  0 	 40
+Data of REG 2: 00000000 00000000 00000000 00001011
+             		  0 	  0 	  0 	 11
+Data of REG 3: 00000000 00000000 00000000 00000110
+             		  0 	  0 	  0 	  6
+Data of REG 4: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 5: 00000000 00000000 00000000 00001011
+             		  0 	  0 	  0 	 11
+Data of REG 6: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 7: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 8: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 9: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 10: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 11: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 12: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 13: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 14: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+             		  x 	  x 	  x 	  x
+Data of REG 15: 00000000 00000000 00000000 00110100
+             		  0 	  0 	  0 	 52
