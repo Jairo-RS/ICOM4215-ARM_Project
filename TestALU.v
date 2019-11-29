@@ -11,7 +11,7 @@ module main;
 	reg [32:0] operation;
 
 	assign opCode = op;
-	ALU alu(inputA, inputB, opCode, carryIn, out, cFlag, zFlag, nFlag, vFlag);
+	ALU alu(inputA, inputB, opCode, carryIn, out, cFlag, zFlag, nFlag, vFlag,1'b0);
 	
 	initial begin
 	

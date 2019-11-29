@@ -8,6 +8,8 @@ module ControlUnit (
 	output MD, ME,
     output [4:0] OP,
 	output [1:0] DT,
+	output [3:0] CCU,
+	output SIGN,
     input [31:0] IR,
     input MOC, COND, clk, clr,
     input debug
@@ -20,14 +22,14 @@ module ControlUnit (
 	StateReg stateRegister(state, nextState, clk, clr);
 	
 	ControlSignalsEncoder signalDecoder(FR_ld, RF_ld, IR_ld, MAR_ld, 
-		 MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, state);
+		 MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, CCU, SIGN, state, IR);
 		 
 	always @(nextState) begin
 		if(debug) begin
 			$display("======================= State: %d =======================", state);
-			$display("FR_ld \tRF_ld \tIR_ld \tMAR_ld \tMDR_ld \tR_W \tMOV \tMA \tMB \tMC \tMD \tME \tOP \tDT");
-			$display("%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b",
-				FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT);
+			$display("FR_ld \tRF_ld \tIR_ld \tMAR_ld \tMDR_ld \tR_W \tMOV \tMA \tMB \tMC \tMD \tME \tOP \tDT \tCCU");
+			$display("%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b \t%b",
+				FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, MA, MB, MC, MD, ME, OP, DT, CCU);
 			$display("IR %b", IR);
 		end
 	end
@@ -61,7 +63,10 @@ module ControlSignalsEncoder (
 	output reg MD, ME,
     output reg 	[4:0] 	OP,
 	output reg 	[1:0] 	DT,
-    input 		[9:0] 	state);
+	output reg 	[3:0] 	CCU,
+	output reg			SIGN,
+    input 		[9:0] 	state,
+	input 		[31:0] IR);
 	
 	always @ (state) begin
         case (state)
@@ -1083,7 +1088,7 @@ module ControlSignalsEncoder (
 			10'd203: //LDRD Imm + OFF
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10010;	DT = 2'b00;
 			end
 			10'd204: //
 			begin
@@ -1098,7 +1103,7 @@ module ControlSignalsEncoder (
 			10'd206: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
+				MB = 2'b10;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00; CCU=IR[15:12]+4'd1;
 			end
 			10'd207: //LDRD R + OFF
 			begin
@@ -1122,13 +1127,13 @@ module ControlSignalsEncoder (
 			end
 			10'd211: //LDRD Imm + PRE
 			begin
-				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
+				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10010;	DT = 2'b00;
 			end
 			10'd212: //
 			begin
-				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b11;
+				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
+				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b11;
 			end
 			10'd213: //
 			begin
@@ -1138,7 +1143,7 @@ module ControlSignalsEncoder (
 			10'd214: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b10;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;
+				MB = 2'b10;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00; CCU=IR[15:12]+4'd1;
 			end
 			10'd215: //LDRD R + PRE
 			begin
@@ -1208,7 +1213,7 @@ module ControlSignalsEncoder (
 			10'd228: //
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00;
+				MB = 2'b00;	MC = 2'b00;	MD = 0;	ME = 0;	OP = 5'b00000;	DT = 2'b00; 	SIGN=1;
 			end
 			10'd229: //
 			begin
@@ -1323,7 +1328,7 @@ module ControlSignalsEncoder (
 			10'd251: //LDRSH Imm + OFF
 			begin
 				FR_ld = 0;	RF_ld = 0;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00;
+				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b00100;	DT = 2'b00; SIGN=1;
 			end
 			10'd252: //
 			begin
@@ -2368,7 +2373,7 @@ module ControlSignalsEncoder (
 			10'd460: //BL
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b10;
-				MB = 2'b01;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;
+				MB = 2'b01;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b10000;	DT = 2'b00;	CCU=4'b1110;
 			end
 			10'd461: //
 			begin

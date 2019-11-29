@@ -507,6 +507,8 @@ module NextStateDecoder (
 			10'd205: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd206: //
+				nextState <= 10'd11;
 			10'd207,10'd208: //LDRD R + OFF
 				nextState <= state + 10'b1;
 			10'd209: //
@@ -517,6 +519,8 @@ module NextStateDecoder (
 			10'd213: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd214: //
+				nextState <= 10'd19;
 			10'd215,10'd216: //LDRD R + PRE
 				nextState <= state + 10'b1;
 			10'd217: //

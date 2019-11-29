@@ -19,10 +19,11 @@ module CPU(
 	wire [31:0] IR;
 	wire MOC, COND;
     reg clk, clr;
-	reg [3:0] cuC;
+	wire [3:0] CCU;
+	wire SIGN;
 	
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
-		MA, MB, MC, MD, ME, OP, DT, IR, MOC, COND, clk, clr,
+		MA, MB, MC, MD, ME, OP, DT, CCU, SIGN,IR, MOC, COND, clk, clr,
 		debugCU);
 		
 	wire cFlag, zFlag, nFlag, vFlag;
@@ -43,7 +44,7 @@ module CPU(
 	wire 	[7:0] 	address;
 	wire 	[31:0] 	ramOut;
 
-	ram256x8 ram(ramOut, MOC, R_W, address, ramIn, MOV, DT, debugRAM);
+	ram256x8 ram(ramOut, MOC, R_W, address, ramIn, MOV, DT, SIGN, debugRAM);
 
 	MAR mar(address, aluOut, MAR_ld);
 	
@@ -80,7 +81,7 @@ module CPU(
 			2'b00:	C <= IR[15:12];
 			2'b01:	C <= 4'b1111;
 			2'b10:	C <= IR[19:16];
-			2'b11:	C <= 4'b1110;
+			2'b11:	C <= CCU;
 			default: C <= IR[15:12];
 		endcase
 		case(MD)

@@ -55,8 +55,8 @@ module ALU(
 						cFlag = out[31];
 						zFlag = ~(out);
 						nFlag = out[31];
-						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
-							(inputA[31] & inputB[31] & !out[31]);
+						vFlag = (inputA[31] & !inputB[31] & !out[31]) | 
+							(!inputA[31] & inputB[31] & out[31]);
 						end
 			// 0111 RSC		
 			5'b0111:	begin
@@ -128,7 +128,10 @@ module ALU(
 			5'b10010:	begin
 						out = (inputA===32'bX ? 32'b0: inputA) + inputB + 32'd4;
 						end	
-
+			// 10011 MVN B Sign Extended
+			5'b10011:	begin
+						{out} = $signed(inputB);
+						end	
 			default:	begin
 						out = 0;
 						cFlag = 0;
