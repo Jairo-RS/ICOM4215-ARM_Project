@@ -33,7 +33,151 @@ module ControlUnit (
 			$display("IR %b", IR);
 		end
 	end
-	
+
+	//An idea for registerList (Load/Store Multiple)
+	reg [3:0] regArray0[0 : 3];
+	reg [3:0] regArray1[0 : 3];
+	reg [3:0] regArray2[0 : 3];
+	reg [3:0] regArray3[0 : 3];
+	reg [15:0] registerList[0:15];
+	integer i;
+
+	always @(IR, nextState, regArray0, regArray1, regArray2, regArray3, registerList) begin
+	if (IR[27:25]==3'b100) begin
+	    if(IR[0] == 1) 
+			regArray0[0] <= 1;
+            CCU[0] <= regArray0[0];
+        end    
+        else begin
+			regArray0[0] <= 0;
+            CCU[0] <= regArray0[0];
+        end    
+        if(IR[1] == 1) begin
+			regArray0[1] <= 1;
+            CCU[1] <= regArray0[1];
+        end
+        else begin
+			regArray0[1] <= 0
+            CCU[1] <= regArray0[1];
+		end
+        if(IR[2] == 1) begin
+			regArray0[2] <= 1;
+            CCU[2] <= regArray0[2];
+        end
+        else begin
+			regArray0[2] <= 0;
+            CCU[2] <= regArray0[2];
+        end
+        if(IR[3] == 1) begin
+			regArray0[3] <= 1;
+            CCU[3] <= regArray0[3];
+        end
+        else begin
+			regArray0[3] <= 0;
+            CCU[3] <= regArray0[3];
+        end
+		if(IR[4] == 1) begin
+			regArray1[0] <= 1;
+			CCU[0] <= regArray1[0];
+		end
+		else begin
+			regArray1[0] <= 0;
+			CCU[0] <= regArray1[0];
+		end
+		if(IR[5] == 1) begin
+			regArray1[1] <= 1;
+			CCU[1] <= regArray1[1];
+		end
+		else begin
+			regArray1[1] <= 0;
+			CCU[1] <= regArray1[1];
+		end
+		if(IR[6] == 1) begin
+			regArray1[2] <= 1;
+			CCU[2] <= regArray1[2];
+		end
+		else begin
+			regArray1[2] <= 0;
+			CCU[2] <= regArray1[2];
+		end
+		if(IR[7] == 1) begin
+			regArray1[3] <= 1;
+			CCU[3] <= regArray1[3];
+		end
+		else begin
+			regArray1[3] <= 1;
+			CCU[3] <= regArray1[3];
+		end
+		if(IR[8] == 1) begin
+			regArray2[0] <= 1;
+			CCU[0] <= regArray2[0];
+		end
+		else begin
+			regArray2[0] <= 0;
+			CCU[0] <= regArray2[0];
+		end
+		if(IR[9] == 1) begin
+			regArray2[1] <= 1;
+			CCU[1] <= regArray2[1];
+		end
+		else begin
+			regArray2[1] <= 0;
+			CCU[1] <= regArray2[1];
+		end
+		if(IR[10] == 1) begin
+			regArray2[2] <= 1;
+			CCU[2] <= regArray2[2];
+		end
+		else begin
+			regArray2[2] <= 0;
+			CCU[2] <= regArray2[2];
+		end
+		if(IR[11] == 1) begin
+			regArray2[3] <= 1;
+			CCU[3] <= regArray2[3];
+		end
+		else begin
+			regArray2[3] <= 0;
+			CCU[3] <= regArray2[3];
+		end
+		if(IR[12] == 1) begin
+			regArray3[0] <= 1;
+			CCU[0] <= regArray3[0];
+		end
+		else begin
+			regArray3[0] <= 0;
+			CCU[0] <= regArray3[0];
+		end
+		if(IR[13] == 1) begin
+			regArray3[1] <= 1;
+			CCU[1] <= regArray3[1];
+		end
+		else begin
+			regArray3[1] <= 0;
+			CCU[1] <= regArray3[1];
+		end
+		if(IR[14] == 1) begin
+			regArray3[2] <= 1;
+			CCU[2] <= regArray3[2];
+		end
+		else begin
+			regArray3[2] <= 0;
+			CCU[2] <= regArray3[2];
+		end
+		if(IR[13] == 1) begin
+			regArray3[3] <= 1;
+			CCU[3] <= regArray3[2];
+		end
+		else begin
+			regArray3[3] <= 0;
+			CCU[3] <= regArray3[2];
+		end
+	end
+
+	for (i=0;i<16;i=i+1) begin //Not sure how to send register values to CCU in sets of 4.
+    	registerList[i] = {regArray3[i],regArray2[i],regArray1[i],regArray0[i]}; //Concatenating all 4 arrays
+ 	end
+
 endmodule
 
 
