@@ -6,7 +6,7 @@
 `include "ShifterSignExtender.v"
 
 module CPU(
-	input				debugCU, debugALU, debugRF, debugRAM
+	input	debugCU, debugALU, debugRF, debugRAM, debugSE
 	);
 	
 	wire FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV;
@@ -25,15 +25,16 @@ module CPU(
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
 		MA, MB, MC, MD, ME, OP, DT, CCU, SIGN,IR, MOC, COND, clk, clr,
 		debugCU);
-		
+	
+	wire [3:0] flags;
+	assign flags = 4'b0;
 	wire cFlag, zFlag, nFlag, vFlag;
 	wire [31:0] aluA;
 	reg [31:0] aluB;
-	wire carryIn;
 	wire [31:0] aluOut;
 	reg [4:0] aluOP;
 	
-	ALU alu(aluA, aluB, aluOP, carryIn, aluOut, cFlag, zFlag, nFlag, vFlag, debugALU);
+	ALU alu(aluA, aluB, aluOP, flags[3], FR_ld, aluOut, cFlag, zFlag, nFlag, vFlag, debugALU);
 	
 	wire [31:0] PA, PB;
 	reg [3:0] A, C;
@@ -46,20 +47,19 @@ module CPU(
 
 	ram256x8 ram(ramOut, MOC, R_W, address, ramIn, MOV, DT, SIGN, debugRAM);
 
-	MAR mar(address, aluOut, MAR_ld);
+	MAR mar(address, aluOut, MAR_ld, clk);
 	
 	reg [31:0] MEout;
-	MDR mdr(ramIn, MEout, MDR_ld);
+	MDR mdr(ramIn, MEout, MDR_ld, clk);
 	
-	InstructionReg instReg(IR, ramOut, IR_ld);
+	InstructionReg instReg(IR, ramOut, IR_ld, clk);
 	
-	reg [3:0] flags;
-	FlagRegister flagReg({cFlag, zFlag, nFlag, vFlag}, flags, FR_ld, clk);
+	FlagRegister flagReg(flags, {cFlag, zFlag, nFlag, vFlag}, FR_ld, clk, 1'b0);
 	
 	ConditionTester condTester(COND, flags[3], flags[2], flags [1], flags[0], IR[31:28]);
 	
 	wire [31:0] shiftOut;
-	ShifterSignExtender shfterExtender(shiftOut, carryIn, cFlag, IR, PB);
+	ShifterSignExtender shfterExtender(shiftOut, flags[3], cFlag, IR, PB, debugSE);
 	
 	//Modeling All Muxes in Datapath
 	always @ (clk) begin
@@ -67,7 +67,7 @@ module CPU(
 			2'b00:	A <= IR[19:16];
 			2'b01:	A <= IR[15:12]; 
 			2'b10:	A <= 4'b1111; 
-			2'b11:	A <= 4'b0000;
+			2'b11:	A <= IR[15:12] + 1'b1;
 			default: A <= IR[19:16];
 		endcase
 		case(MB)
@@ -101,11 +101,13 @@ endmodule
 module MAR(
 	output reg	[7:0]	Q,
 	input 		[31:0]	D,
-	input				MAR_ld);
+	input				MAR_ld, clk);
 	
-	always @ (D, MAR_ld) begin
-		if(MAR_ld)
+	always @ (posedge clk) begin
+		if(MAR_ld) begin
 			Q = D[7:0];
+			$display("MAR %b %d", Q, Q);
+		end
 	end
 	
 endmodule
@@ -113,9 +115,9 @@ endmodule
 module MDR(
 	output reg	[31:0]	Q,
 	input 		[31:0]	D,
-	input				MDR_ld);
+	input				MDR_ld, clk);
 	
-	always @ (D, MDR_ld) begin
+	always @ (posedge clk) begin
 		if(MDR_ld)
 			Q = D;
 	end
@@ -125,9 +127,9 @@ endmodule
 module InstructionReg(
 	output reg	[31:0]	Q,
 	input 		[31:0]	D,
-	input				IR_ld);
+	input				IR_ld, clk);
 	
-	always @ (D, IR_ld) begin
+	always @ (posedge clk) begin
 		if(IR_ld)
 			Q = D;
 	end

@@ -32,7 +32,7 @@ module regFile(
 
 	reg[58*8:0] header = "--------------------------- RF ---------------------------";
 
-	initial begin
+	always @(debug) begin
 		if(debug) begin
 			$monitor("%s\nR0  %d\tR1  %d\tR2  %d\tR3  %d\tR4  %d\tR5  %d\tR6  %d\tR7  %d\nR8  %d\tR9  %d\tR10 %d\tR11 %d\tR12 %d\tR13 %d\tR14 %d\tR15 %d\n%s",
 					header,Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,header);

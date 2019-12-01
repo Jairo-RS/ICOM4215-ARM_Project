@@ -1,11 +1,17 @@
 module FlagRegister(
     output reg 	[3:0] 	Q, 
     input 		[3:0] 	D, 
-    input 				FR_ld, clk);
+    input 				FR_ld, clk, debug);
 
     always @(posedge clk) begin
-        if(FR_ld)
-            Q <= D;
+        if(FR_ld) begin
+            Q = D;
+			if(debug) begin
+				$display("Flag Register");
+				$display("Flags \tRegisters");
+				$display("%b \t%b", D, Q);
+			end
+		end
     end
 endmodule
 
@@ -87,12 +93,13 @@ module ConditionTester(
 			end
 
             4'b1110: //AL (Always executed)
-            Cond = 1;
+				Cond = 1;
 
             default:
-            Cond = 0;
+				Cond = 0;
 
         endcase
+		//if (!Cond) $display("Condition Not passed");
     end
 
 endmodule

@@ -1,7 +1,6 @@
 `include "CPU.v"
 
 //TODO: 
-//  Finish Addressing Mode 3 
 //	Start Load Store Multiple
 module main;
 	integer 		fi, fo, code;
@@ -9,8 +8,9 @@ module main;
 	reg 	[7:0] 	data;
 	
 	reg [31:0] IR;
-	reg[7:0] i;
-	CPU cpu(1'b1,1'b1,1'b1,1'b1);
+	reg [7:0] i;
+	reg debugCU=1'b0, debugALU=1'b0, debugRAM=1'b0, debogREG=1'b0, debugSE=1'b0;
+	CPU cpu(debugCU,debugALU,debogREG,debugRAM,debugSE);
 		
     initial begin
 		fi =$fopen("input_file0.txt","r");
@@ -39,14 +39,24 @@ module main;
             #10 cpu.clk <= !cpu.clk;
 			#10 cpu.clk <= !cpu.clk;		
         end
-		$display("*********************************************");
-		$display("********** Finished Initialization **********");
-		$display("*********************************************");
-		while (cpu.IR !== 32'bX) begin
+		// $display("*********************************************");
+		// $display("********** Finished Initialization **********");
+		// $display("*********************************************");
+		
+		repeat (133) begin
+            #10 cpu.clk <= !cpu.clk;
+			#10 cpu.clk <= !cpu.clk;		
+        end
+		//debugCU=1'b1; debugALU=1'b1; debugRAM=1'b1; debogREG=1'b1; debugSE=1'b1;
+		repeat (40) begin
+            #10 cpu.clk <= !cpu.clk;
+			#10 cpu.clk <= !cpu.clk;		
+        end
+		//while (cpu.IR !== 32'bX) begin
 		//while (cpu.registerFile.Q15 <= 32'd24) begin
-			#10 cpu.clk <= !cpu.clk;
-			#10 cpu.clk <= !cpu.clk;
-		end
+			//#10 cpu.clk <= !cpu.clk;
+			//#10 cpu.clk <= !cpu.clk;
+		//end
 		
 		fo = $fopen("memcontent.txt", "w"); 
 		for(i=0; i<8'd250; i=i+7'd4) begin

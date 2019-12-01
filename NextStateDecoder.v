@@ -14,7 +14,7 @@ module NextStateDecoder (
 			10'd3: if(MOC) nextState <= 10'd4;
             	else nextState <= 10'd3;
 			10'd4: begin
-			if (!Cond)	begin
+				if (!Cond)	begin
 					nextState <= 10'd1;
 				end
 				else begin
@@ -24,16 +24,28 @@ module NextStateDecoder (
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
 							nextState <= 10'd10;
-						else if(IR[20])	nextState <= 10'd8;
-						else nextState <= 10'd6;
+						else if(IR[20])	begin 
+							nextState <= 10'd8;
+							if (debug) $display("Data Pros Imm Shift S");
+						end
+						else begin 
+							nextState <= 10'd6;
+							if (debug) $display("Data Pros Imm Shift");
+						end
 					
 					//Data Processing Immediate
 					else if (IR[27:25] == 3'b001)
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
 							nextState <= 10'd10;
-						else if(IR[20])	nextState <= 10'd8;
-						else nextState <= 10'd6;
+						else if(IR[20])	begin
+							nextState <= 10'd8;
+							if (debug) $display("Data Pros Imm S");
+						end
+						else begin 
+							nextState <= 10'd6;
+							if (debug) $display("Data Pros Imm");
+						end
 					
 					//Shift by register
 					else if(IR[27:25] == 3'b000 & IR[7] == 1'b0 & IR[4] == 1'b1) begin
@@ -46,8 +58,14 @@ module NextStateDecoder (
 						//TST
 						if (IR[24:21] == 4'b1000 | IR[24:21] == 4'b1001) 
 							nextState <= 10'd9;
-						else if(IR[20])	nextState <= 10'd7;
-						else nextState <= 10'd5;
+						else if(IR[20])	begin
+							nextState <= 10'd7;
+							if (debug) $display("Data Pros Reg S");
+						end
+						else begin 
+							nextState <= 10'd5;
+							if (debug) $display("Data Pros Reg");
+						end
 					
 					//Load and Store
 					else if(IR[27:25] == 3'b010) begin //Immediate
@@ -58,6 +76,7 @@ module NextStateDecoder (
 								( IR[22] ? 10'd24:0) +    //Byte
 								(!IR[23] ? 10'd96:0) +    //Subtract
 								10'd11; //LDR / LDRB
+								if (debug) $display("LDR / LDRB");
 						end
 						else begin				//STR
 							nextState <=
@@ -65,7 +84,8 @@ module NextStateDecoder (
 								(!IR[24] ? 10'd16:0) +    //POS-index
 								( IR[22] ? 10'd24:0) +    //Byte
 								(!IR[23] ? 10'd96:0) +    //Subtract
-								10'd59; //STR ? STRB
+								10'd59; //STR / STRB
+								if (debug) $display("STR / STRB");
 						end
 					end
 					else if(IR[27:25] == 3'b011 & IR[4] == 0) begin //Register
@@ -76,6 +96,7 @@ module NextStateDecoder (
 								( IR[22] ? 10'd24:0) +    //Byte
 								(!IR[23] ? 10'd96:0) +    //Subtract
 								+ 10'd15; //LDR R / LDRB R
+								if (debug) $display("LDR R / LDRB R");
 						end
 						else begin				//STR
 							nextState <=
@@ -84,6 +105,7 @@ module NextStateDecoder (
 								( IR[22] ? 10'd24:0) +    //Byte
 								(!IR[23] ? 10'd96:0) +    //Subtract
 								+ 10'd63; //STR R / STRB R
+								if (debug) $display("STR R / STRB R");
 						end
 					end
 					
@@ -247,7 +269,7 @@ module NextStateDecoder (
 						end
 						else begin 
 							nextState <= 10'd459; 				// B
-							if (debug) $display("B");
+							if (debug) $display("Branch");
 						end
 					end
 
@@ -514,6 +536,8 @@ module NextStateDecoder (
 			10'd209: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd210: //
+				nextState <= 10'd15;
 			10'd211,10'd212: //LDRD Imm + PRE
 				nextState <= state + 10'b1;
 			10'd213: //
@@ -526,16 +550,22 @@ module NextStateDecoder (
 			10'd217: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd218: //
+				nextState <= 10'd23;
 			10'd219,10'd220: //LDRD Imm + POS
 				nextState <= state + 10'b1;
 			10'd221: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd222: //
+				nextState <= 10'd27;
 			10'd223,10'd224: //LDRD R + POS
 				nextState <= state + 10'b1;
 			10'd225: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd226: //
+				nextState <= 10'd31;
 			10'd227,10'd228: //LDRSB Imm + OFF
 				nextState <= state + 10'b1;
 			10'd229: //
@@ -599,63 +629,75 @@ module NextStateDecoder (
 			10'd275,10'd276,10'd277: //STRD Imm + OFF
 				nextState <= state + 10'b1;
 			10'd278: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd59;
 				else nextState <= state;
 			10'd279,10'd280,10'd281: //STRD R + OFF
 				nextState <= state + 10'b1;
 			10'd282: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd63;
 				else nextState <= state;
 			10'd283,10'd284,10'd285: //STRD Imm + PRE
 				nextState <= state + 10'b1;
 			10'd286: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd67;
 				else nextState <= state;
 			10'd287,10'd288,10'd289: //STRD R + PRE
 				nextState <= state + 10'b1;
 			10'd290: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd71;
 				else nextState <= state;
 			10'd291,10'd292,10'd293: //STRD Imm + POS
 				nextState <= state + 10'b1;
 			10'd294: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd75;
 				else nextState <= state;
 			10'd295,10'd296,10'd297: //STRD R + POS
 				nextState <= state + 10'b1;
 			10'd298: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd79;
 				else nextState <= state;
 			10'd299,10'd300: //LDRD Imm - OFF
 				nextState <= state + 10'b1;
 			10'd301: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd302: //
+				nextState <= 10'd107;
 			10'd303,10'd304: //LDRD R - OFF
 				nextState <= state + 10'b1;
 			10'd305: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd306: //
+				nextState <= 10'd111;
 			10'd307,10'd308: //LDRD Imm - PRE
 				nextState <= state + 10'b1;
 			10'd309: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd310: //
+				nextState <= 10'd115;
 			10'd311,10'd312: //LDRD R - PRE
 				nextState <= state + 10'b1;
 			10'd313: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd314: //
+				nextState <= 10'd119;
 			10'd315,10'd316: //LDRD Imm - POS
 				nextState <= state + 10'b1;
 			10'd317: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd318: //
+				nextState <= 10'd123;
 			10'd319,10'd320: //LDRD R - POS
 				nextState <= state + 10'b1;
 			10'd321: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd322: //
+				nextState <= 10'd127;
 			10'd323,10'd324: //LDRSB Imm - OFF
 				nextState <= state + 10'b1;
 			10'd325: //
@@ -716,35 +758,35 @@ module NextStateDecoder (
 			10'd369: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd371,10'd372: //STRD Imm - OFF
+			10'd371,10'd372,10'd373: //STRD Imm - OFF
 				nextState <= state + 10'b1;
-			10'd373: //
-				if (MOC) nextState <= 10'b1;
+			10'd374: //
+				if (MOC) nextState <= 10'd155;
 				else nextState <= state;
 			10'd375,10'd376,10'd377: //STRD R - OFF
 				nextState <= state + 10'b1;
 			10'd378: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd159;
 				else nextState <= state;
 			10'd379,10'd380,10'd381: //STRD Imm - PRE
 				nextState <= state + 10'b1;
 			10'd382: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd163;
 				else nextState <= state;
 			10'd383,10'd384,10'd385: //STRD R - PRE
 				nextState <= state + 10'b1;
 			10'd386: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd167;
 				else nextState <= state;
 			10'd387,10'd388,10'd389: //STRD Imm - POS
 				nextState <= state + 10'b1;
 			10'd390: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd171;
 				else nextState <= state;
 			10'd391,10'd392,10'd393: //STRD R - POS
 				nextState <= state + 10'b1;
 			10'd394: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) nextState <= 10'd175;
 				else nextState <= state;
 			10'd395,10'd396: //LDMIA / LDMFD
 				nextState <= state + 10'b1;
