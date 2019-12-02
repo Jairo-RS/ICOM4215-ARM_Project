@@ -19,11 +19,11 @@ module CPU(
 	wire [31:0] IR;
 	wire MOC, COND;
     reg clk, clr;
-	wire [3:0] CCU;
+	wire [3:0] CCU, ACU;
 	wire SIGN;
 	
 	ControlUnit CU(FR_ld, RF_ld, IR_ld, MAR_ld, MDR_ld, R_W, MOV, 
-		MA, MB, MC, MD, ME, OP, DT, CCU, SIGN,IR, MOC, COND, clk, clr,
+		MA, MB, MC, MD, ME, OP, DT, CCU, SIGN, ACU, IR, MOC, COND, clk, clr,
 		debugCU);
 	
 	wire [3:0] flags;
@@ -67,7 +67,7 @@ module CPU(
 			2'b00:	A <= IR[19:16];
 			2'b01:	A <= IR[15:12]; 
 			2'b10:	A <= 4'b1111; 
-			2'b11:	A <= IR[15:12] + 1'b1;
+			2'b11:	A <= ACU;
 			default: A <= IR[19:16];
 		endcase
 		case(MB)

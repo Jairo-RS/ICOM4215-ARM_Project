@@ -1,13 +1,14 @@
 module NextStateDecoder (
 	output reg	[9:0] 	nextState, 
+	output reg  [4:0] 	register,
 	input		[9:0] 	state,
 	input		[31:0] 	IR, 
 	input 				Cond, MOC);
 
-	reg [15:0] registerList[0:15]; 	//Load/Store Multiple
-	integer count;
-
+	reg [15:0] 	registerList[4:0];
 	reg debug = 1;
+	reg [4:0] count=0;
+	reg [4:0] regIndex=0;
 
 	always @ (state) begin
         case (state) 
@@ -263,71 +264,89 @@ module NextStateDecoder (
 							end
 						end
 						//Register List
-						count = 0;
-						if(IR[0]) 
+						count=0;
+						regIndex=0;
+						if(IR[0]) begin
 							registerList[count] = 4'b0000;
 							count = count + 1;
+							$display("registerList 0");
 						end       
 						if(IR[1]) begin
 							registerList[count] = 4'b0001;
 							count = count + 1;
+							$display("registerList 1");
 						end
 						if(IR[2]) begin
 							registerList[count] = 4'b0010;
 							count = count + 1;
+							$display("registerList 2");
 						end
 						if(IR[3]) begin
 							registerList[count] = 4'b0011;
 							count = count + 1;
-						else begin
+							$display("registerList 3");
+						end
 						if(IR[4]) begin
 							registerList[count] = 4'b0100;
 							count = count + 1;
+							$display("registerList 4");
 						end
 						if(IR[5]) begin
 							registerList[count] = 4'b0101;
 							count = count + 1;
+							$display("registerList 5");
 						end
 						if(IR[6]) begin
 							registerList[count] = 4'b0110;
 							count = count + 1;
+							$display("registerList 6");
 						end
 						if(IR[7]) begin
 							registerList[count] = 4'b0111;
 							count = count + 1;
+							$display("registerList 7");
 						end
 						if(IR[8]) begin
 							registerList[count] = 4'b1000;
 							count = count + 1;
+							$display("registerList 8");
 						end
 						if(IR[9]) begin
 							registerList[count] = 4'b1001;
 							count = count + 1;
+							$display("registerList 9");
 						end
 						if(IR[10]) begin
 							registerList[count] = 4'b1010;
 							count = count + 1;
+							$display("registerList 10");
 						end
 						if(IR[11]) begin
 							registerList[count] = 4'b1011;
 							count = count + 1;
+							$display("registerList 11");
 						end
 						if(IR[12]) begin
 							registerList[count] = 4'b1100;
 							count = count + 1;
+							$display("registerList 12");
 						end
 						if(IR[13]) begin
 							registerList[count] = 4'b1101;
 							count = count + 1;
+							$display("registerList 13");
 						end
 						if(IR[14]) begin
 							registerList[count] = 4'b1110;
 							count = count + 1;
+							$display("registerList 14");
 						end
 						if(IR[15]) begin
 							registerList[count] = 4'b1111;
 							count = count + 1;
+							$display("registerList 15");
 						end
+						
 					end
 					
 					// Branch and Branch and Link
@@ -857,11 +876,19 @@ module NextStateDecoder (
 			10'd394: //
 				if (MOC) nextState <= 10'd175;
 				else nextState <= state;
-			10'd395,10'd396: //LDMIA / LDMFD
+			10'd395,10'd396: begin	//LDMIA / LDMFD 
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+			end
 			10'd397: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd398: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd395;
+					regIndex = regIndex+1;
+				end
 			10'd399,10'd400: //LDMIB / LDMED
 				nextState <= state + 10'b1;
 			10'd401: //

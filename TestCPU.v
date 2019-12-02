@@ -40,24 +40,20 @@ module main;
             #10 cpu.clk <= !cpu.clk;
 			#10 cpu.clk <= !cpu.clk;		
         end
-		// $display("*********************************************");
-		// $display("********** Finished Initialization **********");
-		// $display("*********************************************");
 		
-		repeat (133) begin
-            #10 cpu.clk <= !cpu.clk;
-			#10 cpu.clk <= !cpu.clk;		
-        end
-		//debugCU=1'b1; debugALU=1'b1; debugRAM=1'b1; debogREG=1'b1; debugSE=1'b1;
-		repeat (40) begin
-            #10 cpu.clk <= !cpu.clk;
-			#10 cpu.clk <= !cpu.clk;		
-        end
-		//while (cpu.IR !== 32'bX) begin
-		//while (cpu.registerFile.Q15 <= 32'd24) begin
-			//#10 cpu.clk <= !cpu.clk;
-			//#10 cpu.clk <= !cpu.clk;
-		//end
+		// repeat (133) begin
+            // #10 cpu.clk <= !cpu.clk;
+			// #10 cpu.clk <= !cpu.clk;		
+        // end
+		// repeat (40) begin
+            // #10 cpu.clk <= !cpu.clk;
+			// #10 cpu.clk <= !cpu.clk;		
+        // end
+		
+		while (cpu.IR !== 32'bX) begin
+			#10 cpu.clk <= !cpu.clk;
+			#10 cpu.clk <= !cpu.clk;
+		end
 		
 		fo = $fopen("memcontent.txt", "w"); 
 		for(i=0; i<8'd250; i=i+7'd4) begin
