@@ -81,7 +81,7 @@ module ram256x8(
 				case (DataType)
 					2'b00:begin	//Byte 
 						MOC= 0;
-						Mem[Address]	=	DataIn ;
+						Mem[Address]	=	DataIn[7:0] ;
 						MOC =1;
 					end
 

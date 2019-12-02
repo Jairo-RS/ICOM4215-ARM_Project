@@ -170,7 +170,7 @@ module ALU(
 						end
 						end
 			// 1111 MVN !B
-			5'b1011:	begin
+			5'b1111:	begin
 						out = ~inputB;
 						if (S) begin
 							cFlag = out[31];
@@ -221,6 +221,16 @@ module ALU(
 						end	
 			// 10100 MVN A + 1
 			5'b10100:	begin
+						out = (inputA===32'bX ? 32'b0: inputA) + 32'd1;
+						if (S) begin
+							cFlag = out[31];
+							zFlag = out == 32'b0;
+							nFlag = out[31];
+							vFlag = 0;
+						end
+						end
+			// 10101 MVN A - 4
+			5'b10101:	begin
 						out = (inputA===32'bX ? 32'b0: inputA) + 32'd1;
 						if (S) begin
 							cFlag = out[31];

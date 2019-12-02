@@ -9,7 +9,8 @@ module main;
 	
 	reg [31:0] IR;
 	reg [7:0] i;
-	reg debugCU=1'b0, debugALU=1'b0, debugRAM=1'b0, debogREG=1'b0, debugSE=1'b0;
+	reg [31:0] temp;
+	reg debugCU=1'b1, debugALU=1'b1, debugRAM=1'b1, debogREG=1'b1, debugSE=1'b1;
 	CPU cpu(debugCU,debugALU,debogREG,debugRAM,debugSE);
 		
     initial begin
@@ -65,7 +66,7 @@ module main;
 			$fdisplay(fo,"             \t\t\t%d \t%d \t%d \t%d", cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
 		end
-		
+
 		fo = $fopen("regcontent.txt", "w"); 
 		$fdisplay(fo,"Data of REG 0: %b %b %b %b", cpu.registerFile.Q0[31:24], 
 		cpu.registerFile.Q0[23:16], cpu.registerFile.Q0[15:8], cpu.registerFile.Q0[7:0]);
