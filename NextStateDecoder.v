@@ -4,6 +4,9 @@ module NextStateDecoder (
 	input		[31:0] 	IR, 
 	input 				Cond, MOC);
 
+	reg [15:0] registerList[0:15]; 	//Load/Store Multiple
+	integer count;
+
 	reg debug = 1;
 
 	always @ (state) begin
@@ -258,6 +261,72 @@ module NextStateDecoder (
 									end
 								end
 							end
+						end
+						//Register List
+						count = 0;
+						if(IR[0]) 
+							registerList[count] = 4'b0000;
+							count = count + 1;
+						end       
+						if(IR[1]) begin
+							registerList[count] = 4'b0001;
+							count = count + 1;
+						end
+						if(IR[2]) begin
+							registerList[count] = 4'b0010;
+							count = count + 1;
+						end
+						if(IR[3]) begin
+							registerList[count] = 4'b0011;
+							count = count + 1;
+						else begin
+						if(IR[4]) begin
+							registerList[count] = 4'b0100;
+							count = count + 1;
+						end
+						if(IR[5]) begin
+							registerList[count] = 4'b0101;
+							count = count + 1;
+						end
+						if(IR[6]) begin
+							registerList[count] = 4'b0110;
+							count = count + 1;
+						end
+						if(IR[7]) begin
+							registerList[count] = 4'b0111;
+							count = count + 1;
+						end
+						if(IR[8]) begin
+							registerList[count] = 4'b1000;
+							count = count + 1;
+						end
+						if(IR[9]) begin
+							registerList[count] = 4'b1001;
+							count = count + 1;
+						end
+						if(IR[10]) begin
+							registerList[count] = 4'b1010;
+							count = count + 1;
+						end
+						if(IR[11]) begin
+							registerList[count] = 4'b1011;
+							count = count + 1;
+						end
+						if(IR[12]) begin
+							registerList[count] = 4'b1100;
+							count = count + 1;
+						end
+						if(IR[13]) begin
+							registerList[count] = 4'b1101;
+							count = count + 1;
+						end
+						if(IR[14]) begin
+							registerList[count] = 4'b1110;
+							count = count + 1;
+						end
+						if(IR[15]) begin
+							registerList[count] = 4'b1111;
+							count = count + 1;
 						end
 					end
 					

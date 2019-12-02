@@ -33,7 +33,6 @@ module ControlUnit (
 			$display("IR %b", IR);
 		end
 	end
-	
 endmodule
 
 
