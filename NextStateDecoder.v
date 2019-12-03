@@ -171,6 +171,7 @@ module NextStateDecoder (
 					
 					// Multiple Load/Store Addressing Mode 4
 					else if (IR[27:25]==3'b100) begin
+						regIndex = 0;
 						if (IR[20] == 1) begin			// LDMDA LDMIA LDMDB LDMIB
 							if (IR[23] == 1) begin		// Increment
 								if (IR[24] == 0) begin	// After
@@ -894,16 +895,34 @@ module NextStateDecoder (
 			10'd401: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd402: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd399;
+					regIndex = regIndex+1;
+				end
 			10'd403,10'd404: //LDMIDA / LDMFA
 				nextState <= state + 10'b1;
 			10'd405: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd404: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd403;
+					regIndex = regIndex+1;
+				end
 			10'd407,10'd408: //LDMDB / LDMEA
 				nextState <= state + 10'b1;
 			10'd409: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
+			10'd410: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd407;
+					regIndex = regIndex+1;
+				end
 			10'd411,10'd412,10'd413: //STMIA / STMEA
 				nextState <= state + 10'b1;
 			10'd414: //
@@ -918,52 +937,129 @@ module NextStateDecoder (
 				nextState <= state + 10'b1;
 			10'd422: //
 				if (MOC) nextState <= 10'b1;
-				else nextState <= state;
+				else nextState <= state;				
 			10'd423,10'd424,10'd425: //STMDB / STMFD
 				nextState <= state + 10'b1;
 			10'd426: //
 				if (MOC) nextState <= 10'b1;
 				else nextState <= state;
-			10'd427,10'd428: //LDMIA / LDMFD W
+			10'd427,10'd428: begin //LDMIA / LDMFD W
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+			end
 			10'd429: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd431,10'd432: //LDMIB / LDMED W
+			10'd430: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					regIndex = regIndex+1;
+					nextState <= 10'd427;
+				end
+			10'd431,10'd432: begin //LDMIB / LDMED W
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+			end
 			10'd433: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd435,10'd436: //LDMIDA / LDMFA W
+			10'd434: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd431;
+					regIndex = regIndex+1;
+				end
+			10'd435,10'd436: begin //LDMIDA / LDMFA W
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+			end
 			10'd437: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd439,10'd440: //LDMDB / LDMEA W
+			10'd438: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd435;
+					regIndex = regIndex+1;
+				end
+			10'd439,10'd440: begin //LDMDB / LDMEA W
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+			end
 			10'd441: //
 				if (MOC) nextState <= state + 10'b1;
 				else nextState <= state;
-			10'd438,10'd439,10'd440: //STMIA / STMEA W
+			10'd442: //
+				if (regIndex == count-1) nextState <= 10'b1;
+				else begin 
+					nextState <= 10'd439;
+					regIndex = regIndex+1;
+				end
+			10'd443,10'd444,10'd445: begin //STMIA / STMEA W
 				nextState <= state + 10'b1;
-			10'd441: //
-				if (MOC) nextState <= 10'b1;
-				else nextState <= state;
-			10'd443,10'd444,10'd445: //STMIB / STMFA W
-				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+				end
 			10'd446: //
-				if (MOC) nextState <= 10'b1;
+				if (MOC) begin
+					if (regIndex == count-1) begin 
+						$display("if regindex %d  count %d",regIndex, count);
+						nextState <= 10'b1;
+					end
+					else begin 
+						regIndex = regIndex+1;
+						$display("else regindex %d",regIndex);
+						nextState <= 10'd443;
+					end
+				end
 				else nextState <= state;
-			10'd447,10'd448,10'd449: //STMDA / STMED W
+			10'd447,10'd448,10'd449: begin //STMIB / STMFA W
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+				end
 			10'd450: //
-				if (MOC) nextState <= 10'b1;
-				else nextState <= state;
-			10'd451,10'd452,10'd453: //STMDB / STMFD W
+				if (MOC) begin
+					if (regIndex == count-1) begin 
+						$display("if regindex %d  count %d",regIndex, count);
+						nextState <= 10'b1;
+					end
+					else begin 
+						regIndex = regIndex+1;
+						$display("else regindex %d",regIndex);
+						nextState <= 10'd443;
+					end
+				end
+			10'd451,10'd452,10'd453: begin //STMDA / STMED W
 				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+				end
 			10'd454: //
-				if (MOC) nextState <= 10'b1;
-				else nextState <= state;
+				if (MOC) begin
+					if (regIndex == count-1) begin 
+						$display("if regindex %d  count %d",regIndex, count);
+						nextState <= 10'b1;
+					end
+					else begin 
+						regIndex = regIndex+1;
+						$display("else regindex %d",regIndex);
+						nextState <= 10'd443;
+					end
+				end
+			10'd455,10'd456,10'd457: begin //STMDB / STMFD W
+				nextState <= state + 10'b1;
+				register = registerList[regIndex];
+				end
+			10'd458: //
+				if (MOC) begin
+					if (regIndex == count-1) begin 
+						$display("if regindex %d  count %d",regIndex, count);
+						nextState <= 10'b1;
+					end
+					else begin 
+						regIndex = regIndex+1;
+						$display("else regindex %d",regIndex);
+						nextState <= 10'd443;
+					end
+				end
 			10'd460: //BL
 				nextState <= state + 10'b1;
 			default:

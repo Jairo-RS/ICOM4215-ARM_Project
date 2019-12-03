@@ -2219,7 +2219,7 @@ module ControlSignalsEncoder (
 			10'd428: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b10;	CCU = 0;	SIGN = 0;	ACU = 0;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10001;	DT = 2'b10;	CCU = 0;	SIGN = 0;	ACU = 0;
 			end
 			10'd429: //
 			begin
@@ -2249,7 +2249,7 @@ module ControlSignalsEncoder (
 			10'd434: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b10;	MC = 2'b01;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;	CCU = registerList;	SIGN = 0;	ACU = 0;
+				MB = 2'b10;	MC = 2'b11;	MD = 1;	ME = 0;	OP = 5'b01101;	DT = 2'b00;	CCU = registerList;	SIGN = 0;	ACU = 0;
 			end
 			10'd435: //LDMIDA / LDMFA W
 			begin
@@ -2259,7 +2259,7 @@ module ControlSignalsEncoder (
 			10'd436: //
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 0;	MDR_ld = 0;	R_W = 1;	MOV = 1;	MA = 2'b00;
-				MB = 2'b00;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10101;	DT = 2'b10;	CCU = 0;	SIGN = 0;	ACU = 0;
+				MB = 2'b00;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10101;	DT = 2'b10;	CCU = 0;	SIGN = 0;	ACU = 0;
 			end
 			10'd437: //
 			begin
@@ -2274,7 +2274,7 @@ module ControlSignalsEncoder (
 			10'd439: //LDMDB / LDMEA W
 			begin
 				FR_ld = 0;	RF_ld = 1;	IR_ld = 0;	MAR_ld = 1;	MDR_ld = 0;	R_W = 0;	MOV = 0;	MA = 2'b00;
-				MB = 2'b01;	MC = 2'b00;	MD = 1;	ME = 0;	OP = 5'b10101;	DT = 2'b00;	CCU = 0;	SIGN = 0;	ACU = 0;
+				MB = 2'b01;	MC = 2'b10;	MD = 1;	ME = 0;	OP = 5'b10101;	DT = 2'b00;	CCU = 0;	SIGN = 0;	ACU = 0;
 			end
 			10'd440: //
 			begin

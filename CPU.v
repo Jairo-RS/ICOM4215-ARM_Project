@@ -71,28 +71,28 @@ module CPU(
 			default: A <= IR[19:16];
 		endcase
 		case(MB)
-			2'b00:	aluB <= PB;
-			2'b01:	aluB <= shiftOut; // Shifter
-			2'b10:	aluB <= ramIn; // RAM
-			2'b11:	aluB <= 32'b0;
-			default: aluB <= PB;
+			2'b00:	aluB = PB;
+			2'b01:	aluB = shiftOut; // Shifter
+			2'b10:	aluB = ramIn; // RAM
+			2'b11:	aluB = 32'b0;
+			default: aluB = PB;
 		endcase
 		case(MC)
-			2'b00:	C <= IR[15:12];
-			2'b01:	C <= 4'b1111;
-			2'b10:	C <= IR[19:16];
-			2'b11:	C <= CCU;
-			default: C <= IR[15:12];
+			2'b00:	C = IR[15:12];
+			2'b01:	C = 4'b1111;
+			2'b10:	C = IR[19:16];
+			2'b11:	C = CCU;
+			default: C = IR[15:12];
 		endcase
 		case(MD)
-			1'b0:	aluOP <= IR[24:21];
-			1'b1:	aluOP <= OP;
-			default: aluOP <= IR[24:21];
+			1'b0:	aluOP = IR[24:21];
+			1'b1:	aluOP = OP;
+			default: aluOP = IR[24:21];
 		endcase
 		case(ME)
-			1'b0:	MEout <= ramOut;
-			1'b1:	MEout <= aluOut;
-			default: MEout <= ramOut;
+			1'b0:	MEout = ramOut;
+			1'b1:	MEout = aluOut;
+			default: MEout = ramOut;
 		endcase
 	end
 
@@ -118,8 +118,10 @@ module MDR(
 	input				MDR_ld, clk);
 	
 	always @ (posedge clk) begin
-		if(MDR_ld)
+		if(MDR_ld) begin
 			Q = D;
+			$display("MDR %b %d", Q, Q);
+		end
 	end
 	
 endmodule

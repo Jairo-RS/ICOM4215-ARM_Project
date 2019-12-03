@@ -27,6 +27,13 @@ module main;
 		end
 		$display("--------------------------- Preloading ---------------------------");
 		$fclose(fi);
+		fo = $fopen("OutputMemStart.txt", "w"); 
+		for(i=0; i<8'd250; i=i+7'd4) begin
+			$fdisplay(fo,"Data of Addr %b: %b %b %b %b", i, cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
+			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
+			$fdisplay(fo,"             \t\t\t%d \t%d \t%d \t%d", cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
+			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
+		end
 		
 		#10
 		cpu.clk = 1'b0;
@@ -41,21 +48,21 @@ module main;
 			#10 cpu.clk <= !cpu.clk;		
         end
 		
-		// repeat (133) begin
-            // #10 cpu.clk <= !cpu.clk;
-			// #10 cpu.clk <= !cpu.clk;		
-        // end
+		repeat (133) begin
+            #10 cpu.clk <= !cpu.clk;
+			#10 cpu.clk <= !cpu.clk;		
+        end
 		// repeat (40) begin
             // #10 cpu.clk <= !cpu.clk;
 			// #10 cpu.clk <= !cpu.clk;		
         // end
 		
-		while (cpu.IR !== 32'bX) begin
-			#10 cpu.clk <= !cpu.clk;
-			#10 cpu.clk <= !cpu.clk;
-		end
+		// while (cpu.IR !== 32'bX) begin
+			// #10 cpu.clk <= !cpu.clk;
+			// #10 cpu.clk <= !cpu.clk;
+		// end
 		
-		fo = $fopen("memcontent.txt", "w"); 
+		fo = $fopen("OutputMemEnd.txt", "w"); 
 		for(i=0; i<8'd250; i=i+7'd4) begin
 			$fdisplay(fo,"Data of Addr %b: %b %b %b %b", i, cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
@@ -63,7 +70,7 @@ module main;
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
 		end
 
-		fo = $fopen("regcontent.txt", "w"); 
+		fo = $fopen("OutputRegEnd.txt", "w"); 
 		$fdisplay(fo,"Data of REG 0: %b %b %b %b", cpu.registerFile.Q0[31:24], 
 		cpu.registerFile.Q0[23:16], cpu.registerFile.Q0[15:8], cpu.registerFile.Q0[7:0]);
 		$fdisplay(fo,"             \t\t%d \t%d \t%d \t%d", cpu.registerFile.Q0[31:24], 
