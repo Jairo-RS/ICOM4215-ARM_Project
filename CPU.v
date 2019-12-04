@@ -26,7 +26,7 @@ module CPU(
 		MA, MB, MC, MD, ME, OP, DT, CCU, SIGN, ACU, IR, MOC, COND, clk, clr,
 		debugCU);
 	
-	wire [3:0] flags;
+	wire cReg, zReg, nReg, vReg;
 	assign flags = 4'b0;
 	wire cFlag, zFlag, nFlag, vFlag;
 	wire [31:0] aluA;
@@ -34,7 +34,7 @@ module CPU(
 	wire [31:0] aluOut;
 	reg [4:0] aluOP;
 	
-	ALU alu(aluA, aluB, aluOP, flags[3], FR_ld, aluOut, cFlag, zFlag, nFlag, vFlag, debugALU);
+	ALU alu(aluA, aluB, aluOP, cReg, FR_ld, aluOut, cFlag, zFlag, nFlag, vFlag, debugALU);
 	
 	wire [31:0] PA, PB;
 	reg [3:0] A, C;
@@ -54,12 +54,13 @@ module CPU(
 	
 	InstructionReg instReg(IR, ramOut, IR_ld, clk);
 	
-	FlagRegister flagReg(flags, {cFlag, zFlag, nFlag, vFlag}, FR_ld, clk, 1'b0);
+	FlagRegister flagReg(cReg, zReg, nReg, vReg, 
+		cFlag, zFlag, nFlag, vFlag, FR_ld, clk, 1'b0);
 	
-	ConditionTester condTester(COND, flags[3], flags[2], flags [1], flags[0], IR[31:28]);
+	ConditionTester condTester(COND, cReg, zReg, nReg, vReg, IR[31:28]);
 	
 	wire [31:0] shiftOut;
-	ShifterSignExtender shfterExtender(shiftOut, flags[3], cFlag, IR, PB, debugSE);
+	ShifterSignExtender shfterExtender(shiftOut, cReg, cFlag, IR, PB, debugSE);
 	
 	//Modeling All Muxes in Datapath
 	always @ (clk) begin

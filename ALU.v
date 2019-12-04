@@ -91,8 +91,8 @@ module ALU(
 							cFlag = out[31];
 							zFlag = out == 32'b0;
 							nFlag = out[31];
-							vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
-								(inputA[31] & inputB[31] & !out[31]);
+							vFlag = (inputA[31] & !inputB[31] & !out[31]) | 
+								(!inputA[31] & inputB[31] & out[31]);
 						end
 						end
 			// 0111 RSC		
@@ -102,8 +102,8 @@ module ALU(
 							cFlag = out[31];
 							zFlag = out == 32'b0;
 							nFlag = out[31];
-							vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
-								(inputA[31] & inputB[31] & !out[31]);
+							vFlag = (inputA[31] & !inputB[31] & !out[31]) | 
+								(!inputA[31] & inputB[31] & out[31]);
 						end
 						end
 			// 1000 AND	S	
@@ -128,8 +128,8 @@ module ALU(
 						cFlag = out[31];
 						zFlag = out == 32'b0;
 						nFlag = out[31];
-						vFlag = (!inputA[31] & !inputB[31] & out[31]) | 
-							(inputA[31] & inputB[31] & !out[31]);
+						vFlag = (inputA[31] & !inputB[31] & !out[31]) | 
+							(!inputA[31] & inputB[31] & out[31]);
 						end
 			// 1011 ADD	S
 			5'b1011:	begin

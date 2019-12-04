@@ -1,15 +1,17 @@
 module FlagRegister(
-    output reg 	[3:0] 	Q, 
-    input 		[3:0] 	D, 
+    output reg 		c, z, n, v, 
+    input 			cFlag, zFlag, nFlag, vFlag, 
     input 				FR_ld, clk, debug);
 
     always @(posedge clk) begin
         if(FR_ld) begin
-            Q = D;
+            c = cFlag;
+			z = zFlag;
+			n = nFlag;
+			v = vFlag;
 			if(debug) begin
 				$display("Flag Register");
-				$display("Flags \tRegisters");
-				$display("%b \t%b", D, Q);
+				$display("%b \t%b \t%b \t%b", cFlag, zFlag, nFlag, vFlag);
 			end
 		end
     end
@@ -83,12 +85,12 @@ module ConditionTester(
 			end
 
             4'b1100: begin //GT (Signed Greater than)
-            	if(zFlag == 0 && nFlag == vFlag) Cond = 1;
+            	if(zFlag == 0 && (nFlag == vFlag)) Cond = 1;
 				else Cond = 0;
 			end
 
             4'b1101: begin //LE (Signed Less than or equal)
-            	if(zFlag == 1 || nFlag != vFlag) Cond = 1;
+            	if(zFlag == 1 || (nFlag != vFlag)) Cond = 1;
 				else Cond = 0;
 			end
 

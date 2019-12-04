@@ -10,11 +10,11 @@ module main;
 	reg [31:0] IR;
 	reg [7:0] i;
 	reg [31:0] temp;
-	reg debugCU=1'b1, debugALU=1'b1, debugRAM=1'b1, debogREG=1'b1, debugSE=1'b1;
+	reg debugCU=1'b0, debugALU=1'b0, debugRAM=1'b0, debogREG=1'b0, debugSE=1'b0;
 	CPU cpu(debugCU,debugALU,debogREG,debugRAM,debugSE);
 		
     initial begin
-		fi =$fopen("input_file0.txt","r");
+		fi =$fopen("input_file3.txt","r");
 		Address = 8'b00000000;
 		$display("--------------------------- Preloading ---------------------------");
 		while (!$feof(fi)) begin
@@ -29,7 +29,7 @@ module main;
 		$fclose(fi);
 		fo = $fopen("OutputMemStart.txt", "w"); 
 		for(i=0; i<8'd250; i=i+7'd4) begin
-			$fdisplay(fo,"Data of Addr %b: %b %b %b %b", i, cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
+			$fdisplay(fo,"Data of Addr %d: %b %b %b %b", i, cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
 			$fdisplay(fo,"             \t\t\t%d \t%d \t%d \t%d", cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
@@ -52,10 +52,10 @@ module main;
             #10 cpu.clk <= !cpu.clk;
 			#10 cpu.clk <= !cpu.clk;		
         end
-		// repeat (40) begin
-            // #10 cpu.clk <= !cpu.clk;
-			// #10 cpu.clk <= !cpu.clk;		
-        // end
+		repeat (100) begin
+            #10 cpu.clk <= !cpu.clk;
+			#10 cpu.clk <= !cpu.clk;		
+        end
 		
 		// while (cpu.IR !== 32'bX) begin
 			// #10 cpu.clk <= !cpu.clk;
@@ -64,7 +64,7 @@ module main;
 		
 		fo = $fopen("OutputMemEnd.txt", "w"); 
 		for(i=0; i<8'd250; i=i+7'd4) begin
-			$fdisplay(fo,"Data of Addr %b: %b %b %b %b", i, cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
+			$fdisplay(fo,"Data of Addr %d: %b %b %b %b", i, cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);
 			$fdisplay(fo,"             \t\t\t%d \t%d \t%d \t%d", cpu.ram.Mem[i], cpu.ram.Mem[i+1], 
 			cpu.ram.Mem[i+2], cpu.ram.Mem[i+3]);

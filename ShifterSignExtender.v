@@ -73,14 +73,14 @@ module ShifterSignExtender(
 				end
 				2'b11: begin //ROR
 					if(IR[11:7] == 5'b00000) begin
-						{out} <= (cIn << 31) | (Rm >> 1);
-                        shiftCout <= Rm[0];
+						{out} = (cIn << 31) | (Rm >> 1);
+                        shiftCout = Rm[0];
                     end
                     else begin
-                        {out} <= {Rm, Rm} >> IR[11:7];
-                        shiftCout <= Rm[{IR[11:7]}-1];
+                        {out} = {Rm, Rm} >> IR[11:7];
+                        shiftCout = Rm[{IR[11:7]}-1];
                     end
-					if (debug) print("Data Processing Imm ROR", Rm, IR[11:7],temp);
+					if (debug) print("Data Processing Imm ROR", Rm, IR[11:7],out);
 				end
 			endcase
 		else if(IR[27:25] == 3'b010) begin //Load/Store immediate
